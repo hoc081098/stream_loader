@@ -33,24 +33,7 @@ class HomePage extends StatelessWidget {
                 loaderFunction: loader,
                 refresherFunction: refresher,
               ),
-              handleMessage: (message, bloc) {
-                final msg = message.fold(
-                  onFetchFailure: (error, stackTrace) {
-                    context.snackBar('Fetch error');
-                    return 'Fetch error $error, $stackTrace';
-                  },
-                  onFetchSuccess: (data) => 'Fetch success $data',
-                  onRefreshSuccess: (data) {
-                    context.snackBar('Refresh success');
-                    return 'Refresh success $data';
-                  },
-                  onRefreshFailure: (error, stackTrace) {
-                    context.snackBar('Refresh error');
-                    return 'Refresh error $error, $stackTrace';
-                  },
-                );
-                print(msg);
-              },
+              messageHandler: (message, _) => handleMessage(message, context),
               builder: (context, state, bloc) {
                 if (state.error != null) {
                   return Center(
@@ -98,6 +81,25 @@ class HomePage extends StatelessWidget {
     yield List.generate(10, (i) => i);
     await Future.delayed(const Duration(seconds: 2));
     yield List.generate(30, (i) => i);
+  }
+
+  void handleMessage(LoaderMessage<List<int>> message, BuildContext context) {
+    final msg = message.fold(
+      onFetchFailure: (error, stackTrace) {
+        context.snackBar('Fetch error');
+        return 'Fetch error $error, $stackTrace';
+      },
+      onFetchSuccess: (data) => 'Fetch success $data',
+      onRefreshSuccess: (data) {
+        context.snackBar('Refresh success');
+        return 'Refresh success $data';
+      },
+      onRefreshFailure: (error, stackTrace) {
+        context.snackBar('Refresh error');
+        return 'Refresh error $error, $stackTrace';
+      },
+    );
+    print(msg);
   }
 }
 
