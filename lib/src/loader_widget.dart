@@ -19,13 +19,20 @@ class LoaderWidget<Content> extends StatefulWidget {
     Key key,
     @required this.blocProvider,
     @required this.builder,
-    this.messageHandler,
+    LoaderMessageHandler<Content> messageHandler,
   })  : assert(blocProvider != null),
         assert(builder != null),
+        this.messageHandler = messageHandler ?? _emptyMessageHandler,
         super(key: key);
 
   @override
   _LoaderWidgetState<Content> createState() => _LoaderWidgetState<Content>();
+
+  static void _emptyMessageHandler<T>(
+    LoaderMessage<T> message,
+    LoaderBloc<T> bloc,
+  ) =>
+      null;
 }
 
 class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
@@ -42,26 +49,6 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
     bloc = widget.blocProvider()..fetch();
     subscription =
         bloc.message$.listen((message) => widget.messageHandler(message, bloc));
-  }
-
-  @override
-  void didUpdateWidget(LoaderWidget<Content> oldWidget) {
-    super.didUpdateWidget(oldWidget);
-    if (oldWidget.blocProvider != widget.blocProvider) {
-      disposeBloc();
-      initBloc();
-      return;
-    }
-    if (oldWidget.builder != widget.builder) {
-      setState(() {});
-      return;
-    }
-    if (oldWidget.messageHandler != widget.messageHandler) {
-      subscription?.cancel();
-      subscription = bloc.message$
-          .listen((message) => widget.messageHandler(message, bloc));
-      return;
-    }
   }
 
   void disposeBloc() {
