@@ -7,16 +7,18 @@ abstract class LoaderMessage<Content> {
   ///
 
   const factory LoaderMessage.fetchFailure(
-      dynamic error, StackTrace stackTrace) = _FetchFailure;
+      dynamic error, StackTrace stackTrace) = _FetchFailure<Content>;
 
-  const factory LoaderMessage.fetchSuccess(Content content) = _FetchSuccess;
+  const factory LoaderMessage.fetchSuccess(Content content) =
+      _FetchSuccess<Content>;
 
   ///
 
   const factory LoaderMessage.refreshFailure(
-      dynamic error, StackTrace stackTrace) = _RefreshFailure;
+      dynamic error, StackTrace stackTrace) = _RefreshFailure<Content>;
 
-  const factory LoaderMessage.refreshSuccess(Content content) = _RefreshSuccess;
+  const factory LoaderMessage.refreshSuccess(Content content) =
+      _RefreshSuccess<Content>;
 
   R fold<R>({
     @required R Function(dynamic error, StackTrace stackTrace) onFetchFailure,

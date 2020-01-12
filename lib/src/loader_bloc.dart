@@ -54,7 +54,7 @@ class LoaderBloc<Content> {
               (content) => messageS.add(LoaderMessage.fetchSuccess(content)))
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.fetchSuccess(content))
-          .startWith(LoaderPartialStateChange.fetchLoading())
+          .startWith(const LoaderPartialStateChange.fetchLoading())
           .doOnError((e, s) => messageS.add(LoaderMessage.fetchFailure(e, s)))
           .onErrorReturnWith((e) => LoaderPartialStateChange.fetchFailure(e)),
     );

@@ -7,17 +7,18 @@ abstract class LoaderPartialStateChange<Content> {
   ///
 
   const factory LoaderPartialStateChange.fetchSuccess(Content data) =
-      _FetchSuccess;
+      _FetchSuccess<Content>;
 
-  const factory LoaderPartialStateChange.fetchLoading() = _FetchLoading;
+  const factory LoaderPartialStateChange.fetchLoading() =
+      _FetchLoading<Content>;
 
   const factory LoaderPartialStateChange.fetchFailure(dynamic error) =
-      _FetchFailure;
+      _FetchFailure<Content>;
 
   ///
 
   const factory LoaderPartialStateChange.refreshSuccess(Content data) =
-      _RefreshSuccess;
+      _RefreshSuccess<Content>;
 
   R fold<R>({
     @required R Function(Content content) onFetchSuccess,
