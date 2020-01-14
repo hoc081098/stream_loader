@@ -16,6 +16,7 @@ dependencies:
     path: ../
 
 dev_dependencies:
+  pedantic: ^1.8.0
   built_value_generator: ^7.0.0
   build_runner: ^1.0.0
   flutter_test:

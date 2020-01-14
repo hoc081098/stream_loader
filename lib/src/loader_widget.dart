@@ -6,15 +6,32 @@ import 'package:stream_loader/src/loader_message.dart';
 import 'package:stream_loader/src/loader_state.dart';
 
 typedef LoaderBuilder<Content> = Widget Function(
-    BuildContext context, LoaderState<Content> state, LoaderBloc<Content> bloc);
+  BuildContext context,
+  LoaderState<Content> state,
+  LoaderBloc<Content> bloc,
+);
 typedef LoaderMessageHandler<Content> = void Function(
-    LoaderMessage<Content> message, LoaderBloc<Content> bloc);
+  LoaderMessage<Content> message,
+  LoaderBloc<Content> bloc,
+);
 
+/// Widget that builds itself based on the latest data of [LoaderBloc.state$]
 class LoaderWidget<Content> extends StatefulWidget {
+  /// Function that returns a [LoaderBloc]
   final LoaderBloc<Content> Function() blocProvider;
+
+  /// Function that handle [LoaderMessage]
   final LoaderMessageHandler<Content> messageHandler;
+
+  /// Function used to build widget base on stream
   final LoaderBuilder<Content> builder;
 
+  /// Construct a [LoaderWidget]
+  /// The [blocProvider] must be not null
+  ///
+  /// The [builder] must be not null
+  ///
+  /// The [messageHandler] can be null. When it is null, it will equal to [_emptyMessageHandler]
   const LoaderWidget({
     Key key,
     @required this.blocProvider,
@@ -70,8 +87,11 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
     return StreamBuilder(
       stream: bloc.state$,
       initialData: bloc.state$.value,
-      builder: (context, snapshot) =>
-          widget.builder(context, snapshot.data, bloc),
+      builder: (context, snapshot) => widget.builder(
+        context,
+        snapshot.data,
+        bloc,
+      ),
     );
   }
 }

@@ -22,7 +22,7 @@ class HomePage extends StatelessWidget {
             return LoaderWidget<BuiltList<Comment>>(
               blocProvider: () => LoaderBloc(
                 loaderFunction: api.getComments,
-                initial: BuiltList.of([]),
+                initialContent: BuiltList.of([]),
                 enableLogger: false,
               ),
               messageHandler: (message, _) => handleMessage(message, context),

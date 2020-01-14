@@ -8,32 +8,46 @@ import 'package:stream_loader/src/loader_state.dart';
 import 'package:stream_loader/src/partial_state_change.dart';
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 
+/// BLoC that handles loading and refreshing data
 class LoaderBloc<Content> {
-  /// Outputs
+  /// View state stream
   final ValueStream<LoaderState<Content>> state$;
+
+  /// Message stream
   final Stream<LoaderMessage> message$;
 
-  /// Inputs
+  /// Call this function fetch data
   final void Function() fetch;
+
+  /// Call this function to refresh data
   final Future<void> Function() refresh;
 
-  /// Dispose
-  final void Function() _dispose;
+  /// Clean up resources
+  final void Function() dispose;
 
-  void dispose() => _dispose();
-
-  LoaderBloc._(
-    this._dispose, {
+  LoaderBloc._({
+    @required this.dispose,
     @required this.state$,
     @required this.fetch,
     @required this.refresh,
     @required this.message$,
   });
 
+  /// Construct a [LoaderBloc]
+  /// The [loaderFunction] is a function return a stream of [Content]s (must be not null).
+  /// It's called when [fetch] is called
+  ///
+  /// The [refresherFunction] is a function return a stream of [Content]s (can be null).
+  /// It's called when [refresh] is called
+  /// When it is null, is will equal to [loaderFunction]
+  ///
+  /// The [initialContent] is used to create initial view state (can be null)
+  ///
+  /// The [enableLogger] to used to enable logging state and message stream (must be not null)
   factory LoaderBloc({
     @required Stream<Content> Function() loaderFunction,
     Stream<Content> Function() refresherFunction,
-    Content initial,
+    Content initialContent,
     bool enableLogger = true,
   }) {
     assert(loaderFunction != null, 'loaderFunction cannot be null');
@@ -69,7 +83,7 @@ class LoaderBloc<Content> {
           .doOnDone(() => completer.complete()),
     );
 
-    final initialState = LoaderState<Content>.initial(initial);
+    final initialState = LoaderState.initial(content: initialContent);
     final state$ = Rx.merge([fetchChanges, refreshChanges])
         .scan(_reduce, initialState)
         .publishValueSeededDistinct(seedValue: initialState);
@@ -83,7 +97,7 @@ class LoaderBloc<Content> {
     ];
 
     return LoaderBloc._(
-      DisposeBag([...subscriptions, ...controllers]).dispose,
+      dispose: DisposeBag([...subscriptions, ...controllers]).dispose,
       state$: state$,
       fetch: () => fetchS.add(null),
       refresh: () {
@@ -95,7 +109,7 @@ class LoaderBloc<Content> {
     );
   }
 
-  /// Reducer
+  /// Return new [LoaderState] from old [state] and partial state [change]
   static LoaderState<Content> _reduce<Content>(
     LoaderState<Content> state,
     LoaderPartialStateChange<Content> change,

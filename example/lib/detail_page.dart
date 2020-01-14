@@ -22,7 +22,7 @@ class DetailPage extends StatelessWidget {
             return LoaderWidget<Comment>(
               blocProvider: () => LoaderBloc(
                 loaderFunction: () => api.getCommentBy(id: comment.id),
-                initial: comment,
+                initialContent: comment,
               ),
               messageHandler: (message, _) {
                 message.fold(
