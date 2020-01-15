@@ -84,5 +84,56 @@ void main() {
       );
       expect(value, content + '#Fold');
     });
+
+    test('Operator ==', () {
+      // fetchSuccess
+      expect(
+        LoaderPartialStateChange.fetchSuccess('Content'),
+        LoaderPartialStateChange.fetchSuccess('Content'),
+      );
+      expect(
+        const LoaderPartialStateChange.fetchSuccess('Content'),
+        LoaderPartialStateChange.fetchSuccess('Content'),
+      );
+      expect(
+        const LoaderPartialStateChange.fetchSuccess('Content'),
+        const LoaderPartialStateChange.fetchSuccess('Content'),
+      );
+
+      // fetchLoading
+      expect(
+        LoaderPartialStateChange.fetchLoading(),
+        LoaderPartialStateChange.fetchLoading(),
+      );
+      expect(
+        const LoaderPartialStateChange.fetchLoading(),
+        LoaderPartialStateChange.fetchLoading(),
+      );
+      expect(
+        const LoaderPartialStateChange.fetchLoading(),
+        const LoaderPartialStateChange.fetchLoading(),
+      );
+
+      // fetchFailure
+      final exception = Exception();
+      expect(
+        LoaderPartialStateChange.fetchFailure(exception),
+        LoaderPartialStateChange.fetchFailure(exception),
+      );
+
+      // refreshSuccess
+      expect(
+        LoaderPartialStateChange.refreshSuccess('Content'),
+        LoaderPartialStateChange.refreshSuccess('Content'),
+      );
+      expect(
+        const LoaderPartialStateChange.refreshSuccess('Content'),
+        LoaderPartialStateChange.refreshSuccess('Content'),
+      );
+      expect(
+        const LoaderPartialStateChange.refreshSuccess('Content'),
+        const LoaderPartialStateChange.refreshSuccess('Content'),
+      );
+    });
   });
 }

@@ -57,12 +57,39 @@ class _FetchFailure<Content> extends LoaderMessage<Content> {
   final StackTrace stackTrace;
 
   const _FetchFailure(this.error, this.stackTrace) : super._();
+
+  @override
+  String toString() => '_FetchFailure{error: $error, stackTrace: $stackTrace}';
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _FetchFailure &&
+          runtimeType == other.runtimeType &&
+          error == other.error &&
+          stackTrace == other.stackTrace;
+
+  @override
+  int get hashCode => error.hashCode ^ stackTrace.hashCode;
 }
 
 class _FetchSuccess<Content> extends LoaderMessage<Content> {
   final Content content;
 
   const _FetchSuccess(this.content) : super._();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _FetchSuccess &&
+          runtimeType == other.runtimeType &&
+          content == other.content;
+
+  @override
+  int get hashCode => content.hashCode;
+
+  @override
+  String toString() => '_FetchSuccess{content: $content}';
 }
 
 class _RefreshFailure<Content> extends LoaderMessage<Content> {
@@ -70,10 +97,38 @@ class _RefreshFailure<Content> extends LoaderMessage<Content> {
   final StackTrace stackTrace;
 
   const _RefreshFailure(this.error, this.stackTrace) : super._();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _RefreshFailure &&
+          runtimeType == other.runtimeType &&
+          error == other.error &&
+          stackTrace == other.stackTrace;
+
+  @override
+  int get hashCode => error.hashCode ^ stackTrace.hashCode;
+
+  @override
+  String toString() =>
+      '_RefreshFailure{error: $error, stackTrace: $stackTrace}';
 }
 
 class _RefreshSuccess<Content> extends LoaderMessage<Content> {
   final Content content;
 
   const _RefreshSuccess(this.content) : super._();
+
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is _RefreshSuccess &&
+          runtimeType == other.runtimeType &&
+          content == other.content;
+
+  @override
+  int get hashCode => content.hashCode;
+
+  @override
+  String toString() => '_RefreshSuccess{content: $content}';
 }

@@ -96,5 +96,48 @@ void main() {
       );
       expect(value, content + '#Fold');
     });
+
+    test('Operator ==', () {
+      // refreshSuccess
+      expect(
+        LoaderMessage.refreshSuccess('Content'),
+        LoaderMessage.refreshSuccess('Content'),
+      );
+      expect(
+        const LoaderMessage.refreshSuccess('Content'),
+        LoaderMessage.refreshSuccess('Content'),
+      );
+      expect(
+        const LoaderMessage.refreshSuccess('Content'),
+        const LoaderMessage.refreshSuccess('Content'),
+      );
+
+      // fetchSuccess
+      expect(
+        LoaderMessage.fetchSuccess('Content'),
+        LoaderMessage.fetchSuccess('Content'),
+      );
+      expect(
+        const LoaderMessage.fetchSuccess('Content'),
+        LoaderMessage.fetchSuccess('Content'),
+      );
+      expect(
+        const LoaderMessage.fetchSuccess('Content'),
+        const LoaderMessage.fetchSuccess('Content'),
+      );
+
+      final exception = Exception();
+      // fetchFailure
+      expect(
+        LoaderMessage.fetchFailure(exception, null),
+        LoaderMessage.fetchFailure(exception, null),
+      );
+
+      // refreshFailure
+      expect(
+        LoaderMessage.refreshFailure(exception, null),
+        LoaderMessage.refreshFailure(exception, null),
+      );
+    });
   });
 }
