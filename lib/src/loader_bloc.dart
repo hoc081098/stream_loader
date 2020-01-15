@@ -109,9 +109,8 @@ class LoaderBloc<Content> {
     );
   }
 
-  @visibleForTesting
-
   /// Return new [LoaderState] from old [state] and partial state [change]
+  @visibleForTesting
   static LoaderState<Content> reduce<Content>(
     LoaderState<Content> state,
     LoaderPartialStateChange<Content> change,
