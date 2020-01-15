@@ -1,7 +1,5 @@
-import 'package:built_value/built_value.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stream_loader/src/partial_state_change.dart';
-import 'package:stream_loader/stream_loader.dart';
 
 void _aThrowsFunction() {
   throw Exception('Exception');
