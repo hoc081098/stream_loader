@@ -85,7 +85,7 @@ class LoaderBloc<Content> {
 
     final initialState = LoaderState.initial(content: initialContent);
     final state$ = Rx.merge([fetchChanges, refreshChanges])
-        .scan(_reduce, initialState)
+        .scan(reduce, initialState)
         .publishValueSeededDistinct(seedValue: initialState);
 
     final subscriptions = [
@@ -109,8 +109,9 @@ class LoaderBloc<Content> {
     );
   }
 
+  @visibleForTesting
   /// Return new [LoaderState] from old [state] and partial state [change]
-  static LoaderState<Content> _reduce<Content>(
+  static LoaderState<Content> reduce<Content>(
     LoaderState<Content> state,
     LoaderPartialStateChange<Content> change,
     int _,
