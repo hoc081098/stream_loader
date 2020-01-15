@@ -2,6 +2,8 @@
 
 A flutter plugin for loading content asynchronously.
 
+[![Build Status](https://travis-ci.org/hoc081098/stream_loader.svg?branch=master)](https://travis-ci.org/hoc081098/stream_loader)
+
 ## Getting Started
 
 This project is a starting point for a Dart
