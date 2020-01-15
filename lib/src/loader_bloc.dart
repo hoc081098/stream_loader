@@ -23,7 +23,7 @@ class LoaderBloc<Content> {
   final Future<void> Function() refresh;
 
   /// Clean up resources
-  final void Function() dispose;
+  final Future<void> Function() dispose;
 
   LoaderBloc._({
     @required this.dispose,
@@ -110,6 +110,7 @@ class LoaderBloc<Content> {
   }
 
   @visibleForTesting
+
   /// Return new [LoaderState] from old [state] and partial state [change]
   static LoaderState<Content> reduce<Content>(
     LoaderState<Content> state,
