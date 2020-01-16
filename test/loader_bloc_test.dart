@@ -1,4 +1,3 @@
-import 'package:built_value/built_value.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_message.dart';

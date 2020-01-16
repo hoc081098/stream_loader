@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stream_loader/stream_loader.dart';
+import 'package:meta/meta.dart';
 
+@alwaysThrows
 void _aThrowsFunction() {
   throw Exception('Exception');
 }
