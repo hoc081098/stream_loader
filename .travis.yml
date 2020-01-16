@@ -1,24 +1,14 @@
 os:
   - linux
 sudo: false
-addons:
-  apt:
-    # Flutter depends on /usr/lib/x86_64-linux-gnu/libstdc++.so.6 version GLIBCXX_3.4.18
-    sources:
-      - ubuntu-toolchain-r-test # if we don't specify this, the libstdc++6 we get is the wrong version
-    packages:
-      - lib32stdc++6 # https://github.com/flutter/flutter/issues/6207
-      - libstdc++6
-      - fonts-droid-fallback
 before_script:
-  - git clone https://github.com/flutter/flutter.git -b beta
+  - git clone https://github.com/flutter/flutter.git -b stable --depth 1
   - ./flutter/bin/flutter doctor
-with_content_shell: false
+  - ./flutter/bin/flutter packages get
 script:
-  - ./flutter/bin/flutter test
-  - dart --disable-service-auth-codes --enable-vm-service=8111 --pause-isolates-on-exit test/stream_loader_test.dart &
-  - nohup pub global run coverage:collect_coverage --port=8111 --out=coverage.json --wait-paused --resume-isolates
-  - pub global run coverage:format_coverage --lcov --in=coverage.json --out=lcov.info --packages=.packages --report-on=lib
+  - ./flutter/bin/flutter analyze --no-current-package --dartdocs $TRAVIS_BUILD_DIR/lib
+  - ./flutter/bin/cache/dart-sdk/bin/dartfmt -n ./lib --set-exit-if-changed
+  - ./flutter/bin/flutter test --coverage --coverage-path=lcov.info
 after_success:
   - bash <(curl -s https://codecov.io/bash)
 cache:
