@@ -1,3 +1,4 @@
+language: dart
 os:
   - linux
 sudo: false
@@ -13,8 +14,14 @@ addons:
 before_script:
   - git clone https://github.com/flutter/flutter.git -b beta
   - ./flutter/bin/flutter doctor
+with_content_shell: false
 script:
   - ./flutter/bin/flutter test
+  - dart --disable-service-auth-codes --enable-vm-service=8111 --pause-isolates-on-exit test/stream_loader_test.dart &
+  - nohup pub global run coverage:collect_coverage --port=8111 --out=coverage.json --wait-paused --resume-isolates
+  - pub global run coverage:format_coverage --lcov --in=coverage.json --out=lcov.info --packages=.packages --report-on=lib
+after_success:
+  - bash <(curl -s https://codecov.io/bash)
 cache:
   directories:
     - $HOME/.pub-cache
