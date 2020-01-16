@@ -41,7 +41,8 @@ void main() {
       try {
         _aThrowsFunction();
       } catch (exception, stackTrace) {
-        final value = LoaderMessage.fetchFailure(exception, stackTrace).fold(
+        final loaderMessage = LoaderMessage.fetchFailure(exception, stackTrace);
+        final value = loaderMessage.fold(
           onFetchFailure: (e, s) {
             expect(exception, e);
             expect(stackTrace, s);
@@ -52,25 +53,47 @@ void main() {
           onRefreshSuccess: null,
         );
         expect(value, 50);
+
+        expect(
+          loaderMessage.fold(
+            onFetchFailure: null,
+            onFetchSuccess: null,
+            onRefreshFailure: null,
+            onRefreshSuccess: null,
+          ),
+          isNull,
+        );
       }
     });
 
     test('Fold when message is fetch success', () {
       const content = 'This is content';
-      final value = const LoaderMessage.fetchSuccess(content).fold(
+      const loaderMessage = LoaderMessage.fetchSuccess(content);
+      final value = loaderMessage.fold(
         onFetchFailure: null,
         onFetchSuccess: (c) => c + '#Fold',
         onRefreshFailure: null,
         onRefreshSuccess: null,
       );
       expect(value, content + '#Fold');
+
+      expect(
+        loaderMessage.fold(
+          onFetchFailure: null,
+          onFetchSuccess: null,
+          onRefreshFailure: null,
+          onRefreshSuccess: null,
+        ),
+        isNull,
+      );
     });
 
     test('Fold when message is refresh failure', () {
       try {
         _aThrowsFunction();
       } catch (exception, stackTrace) {
-        final value = LoaderMessage.refreshFailure(exception, stackTrace).fold(
+        final loaderMessage = LoaderMessage.refreshFailure(exception, stackTrace);
+        final value = loaderMessage.fold(
           onRefreshFailure: (e, s) {
             expect(exception, e);
             expect(stackTrace, s);
@@ -81,18 +104,39 @@ void main() {
           onRefreshSuccess: null,
         );
         expect(value, 50);
+
+        expect(
+          loaderMessage.fold(
+            onFetchFailure: null,
+            onFetchSuccess: null,
+            onRefreshFailure: null,
+            onRefreshSuccess: null,
+          ),
+          isNull,
+        );
       }
     });
 
     test('Fold when message is refresh success', () {
       const content = 'This is content';
-      final value = const LoaderMessage.refreshSuccess(content).fold(
+      const loaderMessage = LoaderMessage.refreshSuccess(content);
+      final value = loaderMessage.fold(
         onFetchFailure: null,
         onRefreshSuccess: (c) => c + '#Fold',
         onRefreshFailure: null,
         onFetchSuccess: null,
       );
       expect(value, content + '#Fold');
+
+      expect(
+        loaderMessage.fold(
+          onFetchFailure: null,
+          onFetchSuccess: null,
+          onRefreshFailure: null,
+          onRefreshSuccess: null,
+        ),
+        isNull,
+      );
     });
 
     test('Operator ==', () {

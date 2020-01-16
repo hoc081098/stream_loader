@@ -37,7 +37,8 @@ void main() {
       try {
         _aThrowsFunction();
       } catch (ex) {
-        final value = LoaderPartialStateChange.fetchFailure(ex).fold(
+        final partialStateChange = LoaderPartialStateChange.fetchFailure(ex);
+        final value = partialStateChange.fold(
           onRefreshSuccess: null,
           onFetchLoading: null,
           onFetchFailure: (e) {
@@ -47,23 +48,45 @@ void main() {
           onFetchSuccess: null,
         );
         expect(value, 50);
+
+        expect(
+          partialStateChange.fold(
+            onFetchSuccess: null,
+            onFetchLoading: null,
+            onFetchFailure: null,
+            onRefreshSuccess: null,
+          ),
+          isNull,
+        );
       }
     });
 
     test('Fold when change is fetch success', () {
       const content = 'This is content';
-      final value = const LoaderPartialStateChange.fetchSuccess(content).fold(
+      const partialStateChange = LoaderPartialStateChange.fetchSuccess(content);
+      final value = partialStateChange.fold(
         onFetchFailure: null,
         onFetchSuccess: (c) => c + '#Fold',
         onRefreshSuccess: null,
         onFetchLoading: null,
       );
       expect(value, content + '#Fold');
+
+      expect(
+        partialStateChange.fold(
+          onFetchSuccess: null,
+          onFetchLoading: null,
+          onFetchFailure: null,
+          onRefreshSuccess: null,
+        ),
+        isNull,
+      );
     });
 
     test('Fold when change is fetch loading', () {
       const expected = '#Fold';
-      final value = const LoaderPartialStateChange.fetchLoading().fold(
+      const partialStateChange = LoaderPartialStateChange.fetchLoading();
+      final value = partialStateChange.fold(
         onFetchSuccess: null,
         onFetchLoading: () {
           return expected;
@@ -72,17 +95,38 @@ void main() {
         onRefreshSuccess: null,
       );
       expect(value, expected);
+
+      expect(
+        partialStateChange.fold(
+          onFetchSuccess: null,
+          onFetchLoading: null,
+          onFetchFailure: null,
+          onRefreshSuccess: null,
+        ),
+        isNull,
+      );
     });
 
     test('Fold when change is refresh success', () {
       const content = 'This is content';
-      final value = const LoaderPartialStateChange.refreshSuccess(content).fold(
+      const partialStateChange = LoaderPartialStateChange.refreshSuccess(content);
+      final value = partialStateChange.fold(
         onFetchFailure: null,
         onRefreshSuccess: (c) => c + '#Fold',
         onFetchSuccess: null,
         onFetchLoading: null,
       );
       expect(value, content + '#Fold');
+
+      expect(
+        partialStateChange.fold(
+          onFetchSuccess: null,
+          onFetchLoading: null,
+          onFetchFailure: null,
+          onRefreshSuccess: null,
+        ),
+        isNull,
+      );
     });
 
     test('Operator ==', () {
