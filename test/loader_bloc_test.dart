@@ -43,7 +43,10 @@ void main() {
           emitsInOrder([initialState, emitsDone]),
         );
 
+        loaderBloc.fetch();
+        await _delay(2000);
         await loaderBloc.dispose();
+
         await expectFuture;
       });
 
@@ -60,7 +63,67 @@ void main() {
           emitsDone,
         );
 
+        loaderBloc.fetch();
+        await _delay(2000);
         await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+    });
+
+    group('LoaderFunction return a stream that has no data and error', () {
+      test('Emit inital state and emit error state', () async {
+        const initialContent = 'Initial content';
+        final initialState = LoaderState.initial(content: initialContent);
+        final exception = Exception();
+
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () async* {
+            throw exception;
+          },
+          initialContent: initialContent,
+        );
+
+        final expectFuture = expectLater(
+          loaderBloc.state$,
+          emitsInOrder([
+            initialState,
+            LoaderState<String>((b) => b
+              ..content = initialContent
+              ..isLoading = false
+              ..error = exception),
+            emitsDone,
+          ]),
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+
+      test('Emit fetch error message', () async {
+        final exception = Exception();
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () async* {
+            throw exception;
+          },
+          initialContent: 'Initial content',
+        );
+
+        final expectFuture = expectLater(
+          loaderBloc.message$,
+          emitsInOrder([
+            isInstanceOf<LoaderMessage<String>>(),
+            emitsDone,
+          ]),
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
         await expectFuture;
       });
     });

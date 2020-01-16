@@ -14,7 +14,7 @@ class LoaderBloc<Content> {
   final ValueStream<LoaderState<Content>> state$;
 
   /// Message stream
-  final Stream<LoaderMessage> message$;
+  final Stream<LoaderMessage<Content>> message$;
 
   /// Call this function fetch data
   final void Function() fetch;
@@ -48,7 +48,7 @@ class LoaderBloc<Content> {
     @required Stream<Content> Function() loaderFunction,
     Stream<Content> Function() refresherFunction,
     Content initialContent,
-    bool enableLogger = true,
+    bool enableLogger = false,
   }) {
     assert(loaderFunction != null, 'loaderFunction cannot be null');
     assert(enableLogger != null, 'enableLogger cannot be null');
@@ -85,6 +85,11 @@ class LoaderBloc<Content> {
 
     final initialState = LoaderState.initial(content: initialContent);
     final state$ = Rx.merge([fetchChanges, refreshChanges])
+        .doOnData((data) {
+          if (enableLogger) {
+            print('[LOADER_BLOC] change=$data');
+          }
+        })
         .scan(reduce, initialState)
         .publishValueSeededDistinct(seedValue: initialState);
 
