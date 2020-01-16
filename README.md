@@ -4,8 +4,9 @@ A flutter plugin for loading content asynchronously with Dart stream.
 
 ## Author: [Petrus Nguyễn Thái Học](https://github.com/hoc081098)
 
-[![Build Status](https://travis-ci.org/hoc081098/stream_loader.svg?branch=master)](https://travis-ci.org/hoc081098/stream_loader)
 [![Pub](https://img.shields.io/pub/v/stream_loader.svg)](https://pub.dartlang.org/packages/stream_loader)
+[![Build Status](https://travis-ci.org/hoc081098/stream_loader.svg?branch=master)](https://travis-ci.org/hoc081098/stream_loader)
+[![codecov](https://codecov.io/gh/hoc081098/stream_loader/branch/master/graph/badge.svg)](https://codecov.io/gh/hoc081098/stream_loader)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## Getting Started
