@@ -38,7 +38,7 @@ void main() {
           initialContent: initialContent,
         );
 
-        final expectFuture = expect(
+        final expectFuture = expectLater(
           loaderBloc.state$,
           emitsInOrder([initialState, emitsDone]),
         );
@@ -55,7 +55,7 @@ void main() {
           initialContent: initialContent,
         );
 
-        final expectFuture = expect(
+        final expectFuture = expectLater(
           loaderBloc.message$,
           emitsDone,
         );

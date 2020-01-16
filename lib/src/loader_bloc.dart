@@ -39,7 +39,7 @@ class LoaderBloc<Content> {
   ///
   /// The [refresherFunction] is a function return a stream of [Content]s (can be null).
   /// It's called when [refresh] is called
-  /// When it is null, is will equal to [loaderFunction]
+  /// When it is null, is will equal to a function that returns a empty stream
   ///
   /// The [initialContent] is used to create initial view state (can be null)
   ///
@@ -52,7 +52,7 @@ class LoaderBloc<Content> {
   }) {
     assert(loaderFunction != null, 'loaderFunction cannot be null');
     assert(enableLogger != null, 'enableLogger cannot be null');
-    refresherFunction ??= loaderFunction;
+    refresherFunction ??= () => Stream.empty();
 
     // ignore_for_file: close_sinks
     /// Subjects
