@@ -109,7 +109,8 @@ void main() {
 
     test('Fold when change is refresh success', () {
       const content = 'This is content';
-      const partialStateChange = LoaderPartialStateChange.refreshSuccess(content);
+      const partialStateChange =
+          LoaderPartialStateChange.refreshSuccess(content);
       final value = partialStateChange.fold(
         onFetchFailure: null,
         onRefreshSuccess: (c) => c + '#Fold',
@@ -177,6 +178,57 @@ void main() {
       expect(
         const LoaderPartialStateChange.refreshSuccess('Content'),
         const LoaderPartialStateChange.refreshSuccess('Content'),
+      );
+    });
+
+    test('hashCode', () {
+      // fetchSuccess
+      expect(
+        LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+        LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+        LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+        const LoaderPartialStateChange.fetchSuccess('Content').hashCode,
+      );
+
+      // fetchLoading
+      expect(
+        LoaderPartialStateChange.fetchLoading().hashCode,
+        LoaderPartialStateChange.fetchLoading().hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.fetchLoading().hashCode,
+        LoaderPartialStateChange.fetchLoading().hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.fetchLoading().hashCode,
+        const LoaderPartialStateChange.fetchLoading().hashCode,
+      );
+
+      // fetchFailure
+      final exception = Exception();
+      expect(
+        LoaderPartialStateChange.fetchFailure(exception).hashCode,
+        LoaderPartialStateChange.fetchFailure(exception).hashCode,
+      );
+
+      // refreshSuccess
+      expect(
+        LoaderPartialStateChange.refreshSuccess('Content').hashCode,
+        LoaderPartialStateChange.refreshSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.refreshSuccess('Content').hashCode,
+        LoaderPartialStateChange.refreshSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderPartialStateChange.refreshSuccess('Content').hashCode,
+        const LoaderPartialStateChange.refreshSuccess('Content').hashCode,
       );
     });
   });

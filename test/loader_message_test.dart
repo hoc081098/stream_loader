@@ -92,7 +92,8 @@ void main() {
       try {
         _aThrowsFunction();
       } catch (exception, stackTrace) {
-        final loaderMessage = LoaderMessage.refreshFailure(exception, stackTrace);
+        final loaderMessage =
+            LoaderMessage.refreshFailure(exception, stackTrace);
         final value = loaderMessage.fold(
           onRefreshFailure: (e, s) {
             expect(exception, e);
@@ -179,6 +180,49 @@ void main() {
       expect(
         LoaderMessage.refreshFailure(exception, null),
         LoaderMessage.refreshFailure(exception, null),
+      );
+    });
+
+    test('hashCode', () {
+      // refreshSuccess
+      expect(
+        LoaderMessage.refreshSuccess('Content').hashCode,
+        LoaderMessage.refreshSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderMessage.refreshSuccess('Content').hashCode,
+        LoaderMessage.refreshSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderMessage.refreshSuccess('Content').hashCode,
+        const LoaderMessage.refreshSuccess('Content').hashCode,
+      );
+
+      // fetchSuccess
+      expect(
+        LoaderMessage.fetchSuccess('Content').hashCode,
+        LoaderMessage.fetchSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderMessage.fetchSuccess('Content').hashCode,
+        LoaderMessage.fetchSuccess('Content').hashCode,
+      );
+      expect(
+        const LoaderMessage.fetchSuccess('Content').hashCode,
+        const LoaderMessage.fetchSuccess('Content').hashCode,
+      );
+
+      final exception = Exception();
+      // fetchFailure
+      expect(
+        LoaderMessage.fetchFailure(exception, null).hashCode,
+        LoaderMessage.fetchFailure(exception, null).hashCode,
+      );
+
+      // refreshFailure
+      expect(
+        LoaderMessage.refreshFailure(exception, null).hashCode,
+        LoaderMessage.refreshFailure(exception, null).hashCode,
       );
     });
   });
