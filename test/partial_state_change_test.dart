@@ -12,7 +12,6 @@ void main() {
     test('Create a fetch failure change', () async {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (e) {
         LoaderPartialStateChange.fetchFailure(e);
         expect(true, true);
@@ -37,7 +36,6 @@ void main() {
     test('Fold when change is fetch failure', () {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (ex) {
         final value = LoaderPartialStateChange.fetchFailure(ex).fold(
           onRefreshSuccess: null,

@@ -12,7 +12,6 @@ void main() {
     test('Create a fetch failure message', () async {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (e, s) {
         LoaderMessage.fetchFailure(e, s);
         expect(true, true);
@@ -27,7 +26,6 @@ void main() {
     test('Create a refresh failure message', () async {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (e, s) {
         LoaderMessage.refreshFailure(e, s);
         expect(true, true);
@@ -42,7 +40,6 @@ void main() {
     test('Fold when message is fetch failure', () {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (exception, stackTrace) {
         final value = LoaderMessage.fetchFailure(exception, stackTrace).fold(
           onFetchFailure: (e, s) {
@@ -72,7 +69,6 @@ void main() {
     test('Fold when message is refresh failure', () {
       try {
         _aThrowsFunction();
-        expect(true, false);
       } catch (exception, stackTrace) {
         final value = LoaderMessage.refreshFailure(exception, stackTrace).fold(
           onRefreshFailure: (e, s) {
