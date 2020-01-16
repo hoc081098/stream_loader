@@ -5,11 +5,15 @@ import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_message.dart';
 import 'package:stream_loader/src/loader_state.dart';
 
+/// The [state] is nullable
+/// The [bloc] is nullable
 typedef LoaderBuilder<Content> = Widget Function(
   BuildContext context,
   LoaderState<Content> state,
   LoaderBloc<Content> bloc,
 );
+
+/// The [bloc] is nullable
 typedef LoaderMessageHandler<Content> = void Function(
   LoaderMessage<Content> message,
   LoaderBloc<Content> bloc,
@@ -63,9 +67,10 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
   }
 
   void initBloc() {
-    bloc = widget.blocProvider()..fetch();
-    subscription =
-        bloc.message$.listen((message) => widget.messageHandler(message, bloc));
+    bloc = widget.blocProvider();
+    bloc?.fetch();
+    subscription = bloc?.message$
+        ?.listen((message) => widget.messageHandler(message, bloc));
   }
 
   void disposeBloc() {
@@ -85,8 +90,8 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
   @override
   Widget build(BuildContext context) {
     return StreamBuilder(
-      stream: bloc.state$,
-      initialData: bloc.state$.value,
+      stream: bloc?.state$ ?? Stream.empty(),
+      initialData: bloc?.state$?.value,
       builder: (context, snapshot) => widget.builder(
         context,
         snapshot.data,
