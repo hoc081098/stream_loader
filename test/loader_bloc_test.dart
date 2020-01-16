@@ -210,5 +210,195 @@ void main() {
         await Future.wait(futures);
       });
     });
+
+    group('RefreshFunction return a empty stream', () {
+      test('Emit inital state', () async {
+        const initialContent = 'Initial content';
+        final initialState = LoaderState.initial(content: initialContent);
+
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () async* {},
+          initialContent: initialContent,
+          refresherFunction: () async* {},
+        );
+
+        final expectFuture = expectLater(
+          loaderBloc.state$,
+          emitsInOrder([initialState, emitsDone]),
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.refresh();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+
+      test('Message stream is empty', () async {
+        const initialContent = 'Initial content';
+
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () async* {},
+          initialContent: initialContent,
+          refresherFunction: () async* {},
+        );
+
+        final expectFuture = expectLater(
+          loaderBloc.message$,
+          emitsDone,
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.refresh();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+    });
+
+    group('RefreshFunction return a stream that has no data and error', () {
+      test('Emit inital state and done event', () async {
+        const initialContent = 'Initial content';
+        final initialState = LoaderState.initial(content: initialContent);
+        final exception = Exception();
+
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () async* {},
+          initialContent: initialContent,
+          refresherFunction: () => Stream.error(exception),
+        );
+
+        final expectFuture = expectLater(
+          loaderBloc.state$,
+          emitsInOrder([initialState, emitsDone]),
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.refresh();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+
+      test('Emit refresh error message', () async {
+        final exception = Exception();
+        final loaderBloc = LoaderBloc<String>(
+            loaderFunction: () async* {},
+            initialContent: 'Initial content',
+            refresherFunction: () async* {
+              throw exception;
+            });
+
+        final expectFuture = expectLater(
+          loaderBloc.message$,
+          emitsInOrder([
+            isInstanceOf<LoaderMessage<String>>(),
+            emitsDone,
+          ]),
+        );
+
+        loaderBloc.fetch();
+        await _delay(2000);
+        await loaderBloc.refresh();
+        await _delay(2000);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+      });
+    });
+
+    group('RefreshFunction return a stream that has values', () {
+      const multiDelay = 10;
+      const delta = 500;
+      const initialContent = 'Initial content';
+      final initialState = LoaderState.initial(content: initialContent);
+
+      Future<void> _one(
+        int repeatCount,
+        Future<void> Function(LoaderBloc bloc) expectFunc,
+      ) async {
+        final totalTime =
+            List.generate(repeatCount, (i) => (i + 1) * multiDelay)
+                .fold(0, (a, e) => a + e);
+
+        final loaderBloc = LoaderBloc<String>(
+          loaderFunction: () => Stream.empty(),
+          refresherFunction: () async* {
+            for (int i = 0; i < repeatCount; i++) {
+              yield '$initialContent#$i';
+              await _delay(multiDelay * (i + 1));
+            }
+          },
+          initialContent: initialContent,
+          enableLogger: false,
+        );
+
+        final expectFuture = expectFunc(loaderBloc);
+
+        loaderBloc.fetch();
+        await _delay(100);
+        await loaderBloc.refresh();
+        await _delay(totalTime + delta);
+        await loaderBloc.dispose();
+
+        await expectFuture;
+        print('Done $repeatCount');
+      }
+
+      test('Emit inital state and updated states from refreshFunction',
+          () async {
+        final futures = [
+          for (int repeatCount = 1; repeatCount <= 5; repeatCount++)
+            _one(
+              repeatCount,
+              (loaderBloc) => expectLater(
+                loaderBloc.state$,
+                emitsInOrder(
+                  [
+                    initialState,
+                    ...[
+                      for (int j = 0; j < repeatCount; j++)
+                        LoaderState<String>(
+                          (b) => b
+                            ..content = '$initialContent#$j'
+                            ..isLoading = true
+                            ..error = null,
+                        )
+                    ],
+                    emitsDone,
+                  ],
+                ),
+              ),
+            ),
+        ];
+        await Future.wait(futures);
+      });
+
+      test('Emit refresh success messages', () async {
+        final futures = [
+          for (int repeatCount = 1; repeatCount <= 5; repeatCount++)
+            _one(
+              repeatCount,
+              (loaderBloc) => expectLater(
+                loaderBloc.message$,
+                emitsInOrder([
+                  ...[
+                    for (int j = 0; j < repeatCount; j++)
+                      LoaderMessage.refreshSuccess('$initialContent#$j')
+                  ],
+                  emitsDone,
+                ]),
+              ),
+            ),
+        ];
+        await Future.wait(futures);
+      });
+    });
   });
 }
