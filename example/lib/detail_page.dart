@@ -19,11 +19,17 @@ class DetailPage extends StatelessWidget {
         constraints: BoxConstraints.expand(),
         child: Consumer<Api>(
           builder: (context, api) {
+            final loadDetail = () => api.getCommentBy(id: comment.id);
+
             return LoaderWidget<Comment>(
-              blocProvider: () => LoaderBloc(
-                loaderFunction: () => api.getCommentBy(id: comment.id),
-                initialContent: comment,
-              ),
+              blocProvider: () {
+                return LoaderBloc(
+                  loaderFunction: loadDetail,
+                  refresherFunction: loadDetail,
+                  initialContent: comment,
+                  enableLogger: true,
+                );
+              },
               messageHandler: (message, _) {
                 message.fold(
                   onFetchFailure: null,

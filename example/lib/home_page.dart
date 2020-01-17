@@ -1,6 +1,7 @@
 import 'package:example/data/api.dart';
 import 'package:example/data/comment.dart';
 import 'package:example/detail_page.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
@@ -22,17 +23,21 @@ class HomePage extends StatelessWidget {
             return LoaderWidget<BuiltList<Comment>>(
               blocProvider: () => LoaderBloc(
                 loaderFunction: api.getComments,
+                refresherFunction: api.getComments,
                 initialContent: BuiltList.of([]),
-                enableLogger: false,
               ),
               messageHandler: (message, _) => handleMessage(message, context),
               builder: (context, state, bloc) {
                 if (state.error != null) {
                   return Center(
                     child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
-                        Text('Error: ${state.error}'),
+                        Text(
+                          'Error: ${state.error}',
+                          textAlign: TextAlign.center,
+                        ),
                         const SizedBox(height: 8),
                         RaisedButton(
                           onPressed: bloc.fetch,
@@ -54,6 +59,13 @@ class HomePage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       var comment = state.content[index];
                       return ListTile(
+                        leading: CircleAvatar(
+                          child: Text(comment.name[0]),
+                          backgroundColor:
+                              Colors.primaries[index % Colors.primaries.length],
+                          maxRadius: 32,
+                          minRadius: 32,
+                        ),
                         title: Text(comment.name),
                         subtitle: Text(comment.email),
                         onTap: () {
