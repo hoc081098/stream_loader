@@ -22,7 +22,7 @@ dependencies:
 ## Usage
 
 <p align="center">
-    <img src="https://github.com/hoc081098/hoc081098.github.io/raw/master/stream_loader/untitled.gif" height="720"/>
+    <img src="https://github.com/hoc081098/hoc081098.github.io/raw/master/stream_loader/untitled.gif" height="480"/>
 </p>
 
 #### Model and api
