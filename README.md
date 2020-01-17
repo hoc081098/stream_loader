@@ -11,6 +11,91 @@ A flutter plugin for loading content asynchronously with Dart stream.
 
 ## Getting Started
 
+In your flutter project, add the dependency to your `pubspec.yaml`
+
+```yaml
+dependencies:
+  ...
+  stream_loader: <latest_version>
+```
+
+## Usage
+
+#### Model and api
+```dart
+abstract class Comment implements Built<Comment, CommentBuilder> { ... }
+
+class Api {
+  Stream<BuiltList<Comment>> getComments() { ... }
+  Stream<Comment> getCommentBy({@required int id}) { ... }
+}
+final api = Api();
+```
+
+#### Create LoaderWidget load comments from api
+```dart
+import 'package:stream_loader/stream_loader.dart';
+
+LoaderWidget<BuiltList<Comment>>(
+  blocProvider: () => LoaderBloc(
+    loaderFunction: api.getComments,
+    refresherFunction: api.getComments,
+    initialContent: BuiltList.of([]),
+    enableLogger: true,
+  ),
+  messageHandler: (message, bloc) {
+    message.fold(
+      onFetchFailure: (error, stackTrace) => context.snackBar('Fetch error'),
+      onFetchSuccess: (_) {},
+      onRefreshSuccess: (data) => context.snackBar('Refresh success'),
+      onRefreshFailure: (error, stackTrace) => context.snackBar('Refresh error'),
+    );
+  },
+  builder: (context, state, bloc) {
+    if (state.error != null) {
+      return ErrorWidget(error: state.error);
+    }
+    if (state.isLoading) {
+      return LoadingWidget();
+    }
+    return RefreshIndicator(
+      onRefresh: bloc.refresh,
+      child: CommentsListWidget(comments: state.content),
+    );
+  }
+);
+```
+
+#### Create LoaderWidget load comment detail from api
+```dart
+import 'package:stream_loader/stream_loader.dart';
+
+final Comment comment;
+final loadDetail = () => api.getCommentBy(id: comment.id);
+
+LoaderWidget<Comment>(
+  blocProvider: () => LoaderBloc(
+    loaderFunction: loadDetail,
+    refresherFunction: loadDetail,
+    initialContent: comment,
+    enableLogger: true,
+  ),
+  messageHandler: (message, _) {
+    message.fold(
+      onFetchFailure: null,
+      onFetchSuccess: null,
+      onRefreshFailure: null,
+      onRefreshSuccess: (_) => context.snackBar('Refresh success'),
+    );
+  },
+  builder: (context, state, bloc) {
+    return RefreshIndicator(
+      onRefresh: bloc.refresh,
+      child: CommentDetailWidget(comment: state.content),
+    );
+  },
+);
+```
 
 ## License
     MIT License
