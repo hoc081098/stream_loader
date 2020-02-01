@@ -19,6 +19,10 @@ dependencies:
   stream_loader: <latest_version>
 ```
 
+## Examples
+-   [stream_loader/example](https://github.com/hoc081098/stream_loader/tree/master/example)
+-   [stream_loader_demo](https://github.com/hoc081098/stream_loader_demo)
+
 ## Usage
 
 <p align="center">
