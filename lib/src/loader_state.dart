@@ -30,4 +30,8 @@ abstract class LoaderState<Content>
         ..content = content
         ..isLoading = true
         ..error = null);
+
+  @memoized
+  @override
+  int get hashCode;
 }

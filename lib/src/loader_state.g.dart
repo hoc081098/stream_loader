@@ -44,9 +44,10 @@ class _$LoaderState<Content> extends LoaderState<Content> {
         error == other.error;
   }
 
+  int __hashCode;
   @override
   int get hashCode {
-    return $jf(
+    return __hashCode ??= $jf(
         $jc($jc($jc(0, content.hashCode), isLoading.hashCode), error.hashCode));
   }
 

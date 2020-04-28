@@ -1,25 +1,27 @@
 name: stream_loader
 description: A flutter plugin for loading content asynchronously with Dart stream.
-version: 0.1.0
+version: 1.0.0
 homepage: https://github.com/hoc081098/stream_loader.git
+repository: https://github.com/hoc081098/stream_loader.git
+issue_tracker: https://github.com/hoc081098/stream_loader/issues
 
 environment:
   sdk: '>=2.6.0 <3.0.0'
 
 dependencies:
-  disposebag: ^1.0.0+1
-  distinct_value_connectable_stream: ^1.0.3
-  rxdart: ^0.23.1
-  built_value: ^7.0.0
+  disposebag: ^1.1.2
+  distinct_value_connectable_stream: ^1.1.1
+  rxdart: ^0.24.0
+  built_value: ^7.1.0
   flutter:
     sdk: flutter
 
 dev_dependencies:
   meta: ^1.1.6
   mockito: ^4.1.1
-  pedantic: ^1.8.0
-  build_runner: ^1.0.0
-  built_value_generator: ^7.0.0
+  pedantic: ^1.9.0
+  build_runner: ^1.9.0
+  built_value_generator: ^7.1.0
   flutter_test:
     sdk: flutter
 
