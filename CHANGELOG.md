@@ -1,3 +1,7 @@
+## 1.0.1 - Sep 22, 2020
+
+* Update dependencies.
+
 ## 1.0.0 - Apr 29, 2020
 
 * Update dependencies.
