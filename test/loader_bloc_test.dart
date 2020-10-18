@@ -28,7 +28,7 @@ void main() {
     });
 
     group('LoaderFunction return a empty stream', () {
-      test('Emit inital state', () async {
+      test('Emit done event', () async {
         const initialContent = 'Initial content';
         final initialState = LoaderState.initial(content: initialContent);
 
@@ -37,9 +37,10 @@ void main() {
           initialContent: initialContent,
         );
 
+        expect(loaderBloc.state$.value, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
-          emitsInOrder([initialState, emitsDone]),
+          emitsDone,
         );
 
         loaderBloc.fetch();
@@ -71,7 +72,7 @@ void main() {
     });
 
     group('LoaderFunction return a stream that has no data and error', () {
-      test('Emit inital state and emit error state', () async {
+      test('Emit error state', () async {
         const initialContent = 'Initial content';
         final initialState = LoaderState.initial(content: initialContent);
         final exception = Exception();
@@ -83,10 +84,10 @@ void main() {
           initialContent: initialContent,
         );
 
+        expect(loaderBloc.state$.value, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
           emitsInOrder([
-            initialState,
             LoaderState<String>((b) => b
               ..content = initialContent
               ..isLoading = false
@@ -162,29 +163,32 @@ void main() {
         print('Done $repeatCount');
       }
 
-      test('Emit inital state and states from loaderFunction', () async {
+      test('Emit states from loaderFunction', () async {
         final futures = [
           for (int repeatCount = 1; repeatCount <= 5; repeatCount++)
             _one(
               repeatCount,
-              (loaderBloc) => expectLater(
-                loaderBloc.state$,
-                emitsInOrder(
-                  [
-                    initialState,
-                    ...[
-                      for (int j = 0; j < repeatCount; j++)
-                        LoaderState<String>(
-                          (b) => b
-                            ..content = '$initialContent#$j'
-                            ..isLoading = false
-                            ..error = null,
-                        )
+              (loaderBloc) {
+                expect(loaderBloc.state$.value, initialState);
+
+                return expectLater(
+                  loaderBloc.state$,
+                  emitsInOrder(
+                    [
+                      ...[
+                        for (int j = 0; j < repeatCount; j++)
+                          LoaderState<String>(
+                            (b) => b
+                              ..content = '$initialContent#$j'
+                              ..isLoading = false
+                              ..error = null,
+                          )
+                      ],
+                      emitsDone,
                     ],
-                    emitsDone,
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
         ];
         await Future.wait(futures);
@@ -212,7 +216,7 @@ void main() {
     });
 
     group('RefreshFunction return a empty stream', () {
-      test('Emit inital state', () async {
+      test('Emit done event', () async {
         const initialContent = 'Initial content';
         final initialState = LoaderState.initial(content: initialContent);
 
@@ -222,9 +226,10 @@ void main() {
           refresherFunction: () async* {},
         );
 
+        expect(loaderBloc.state$.value, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
-          emitsInOrder([initialState, emitsDone]),
+          emitsDone,
         );
 
         loaderBloc.fetch();
@@ -261,7 +266,7 @@ void main() {
     });
 
     group('RefreshFunction return a stream that has no data and error', () {
-      test('Emit inital state and done event', () async {
+      test('Emit done event', () async {
         const initialContent = 'Initial content';
         final initialState = LoaderState.initial(content: initialContent);
         final exception = Exception();
@@ -272,9 +277,10 @@ void main() {
           refresherFunction: () => Stream.error(exception),
         );
 
+        expect(loaderBloc.state$.value, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
-          emitsInOrder([initialState, emitsDone]),
+          emitsDone,
         );
 
         loaderBloc.fetch();
@@ -351,30 +357,32 @@ void main() {
         print('Done $repeatCount');
       }
 
-      test('Emit inital state and updated states from refreshFunction',
-          () async {
+      test('Emits updated states from refreshFunction', () async {
         final futures = [
           for (int repeatCount = 1; repeatCount <= 5; repeatCount++)
             _one(
               repeatCount,
-              (loaderBloc) => expectLater(
-                loaderBloc.state$,
-                emitsInOrder(
-                  [
-                    initialState,
-                    ...[
-                      for (int j = 0; j < repeatCount; j++)
-                        LoaderState<String>(
-                          (b) => b
-                            ..content = '$initialContent#$j'
-                            ..isLoading = true
-                            ..error = null,
-                        )
+              (loaderBloc) {
+                expect(loaderBloc.state$.value, initialState);
+
+                return expectLater(
+                  loaderBloc.state$,
+                  emitsInOrder(
+                    [
+                      ...[
+                        for (int j = 0; j < repeatCount; j++)
+                          LoaderState<String>(
+                            (b) => b
+                              ..content = '$initialContent#$j'
+                              ..isLoading = true
+                              ..error = null,
+                          )
+                      ],
+                      emitsDone,
                     ],
-                    emitsDone,
-                  ],
-                ),
-              ),
+                  ),
+                );
+              },
             ),
         ];
         await Future.wait(futures);

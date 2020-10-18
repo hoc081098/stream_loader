@@ -1,3 +1,10 @@
+## 1.1.0-beta01 - Oct 18, 2020
+
+*   Update dependencies to latest version.
+*   `LoaderBloc.state$` will not replay the latest state, use `LoaderBloc.state$.value` getter instead. 
+    This is more consistent to `StreamBuilder.initialData` in Flutter.
+    This change caused by change of [distinct_value_connectable_stream 1.2.0-beta01](https://pub.dev/packages/distinct_value_connectable_stream/versions/1.2.0-beta01/changelog).
+
 ## 1.0.1 - Sep 22, 2020
 
 * Update dependencies.

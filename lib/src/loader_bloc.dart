@@ -1,12 +1,12 @@
 import 'dart:async';
 
 import 'package:disposebag/disposebag.dart';
-import 'package:flutter/foundation.dart';
+import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
+import 'package:meta/meta.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:stream_loader/src/loader_message.dart';
 import 'package:stream_loader/src/loader_state.dart';
 import 'package:stream_loader/src/partial_state_change.dart';
-import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart';
 
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content> {
@@ -91,7 +91,7 @@ class LoaderBloc<Content> {
           }
         })
         .scan(reduce, initialState)
-        .publishValueSeededDistinct(seedValue: initialState);
+        .publishValueDistinct(initialState);
 
     final subscriptions = [
       state$.connect(),
@@ -102,7 +102,10 @@ class LoaderBloc<Content> {
     ];
 
     return LoaderBloc._(
-      dispose: DisposeBag([...subscriptions, ...controllers]).dispose,
+      dispose: DisposeBag(
+        [...subscriptions, ...controllers],
+        enableLogger,
+      ).dispose,
       state$: state$,
       fetch: () => fetchS.add(null),
       refresh: () {
