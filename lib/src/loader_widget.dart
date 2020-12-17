@@ -72,11 +72,9 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
     super.didUpdateWidget(oldWidget);
 
     if (widget.messageHandler != oldWidget.messageHandler) {
-      final newSubscription = bloc?.message$
-          ?.listen((message) => widget.messageHandler(message, bloc));
-
       subscription?.cancel();
-      subscription = newSubscription;
+      subscription = bloc?.message$
+          ?.listen((message) => widget.messageHandler(message, bloc));
     }
   }
 
