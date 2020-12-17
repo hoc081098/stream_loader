@@ -18,6 +18,7 @@ import 'package:rxdart/rxdart.dart'
 import 'loader_message.dart';
 import 'loader_state.dart';
 import 'partial_state_change.dart';
+import 'utils.dart';
 
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content> {
@@ -155,9 +156,4 @@ class LoaderBloc<Content> {
         ..content = content),
     );
   }
-}
-
-extension _X<T> on T {
-  @pragma('vm:prefer-inline')
-  R let<R>(R Function(T) block) => block(this);
 }
