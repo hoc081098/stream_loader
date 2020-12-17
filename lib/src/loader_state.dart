@@ -3,6 +3,8 @@ import 'package:flutter/foundation.dart';
 
 part 'loader_state.g.dart';
 
+// ignore_for_file: hash_and_equals
+
 /// View state that exposed to widget builder
 @immutable
 abstract class LoaderState<Content>

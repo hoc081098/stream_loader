@@ -34,19 +34,20 @@ abstract class LoaderPartialStateChange<Content> {
     onFetchFailure ??= (_) => null;
     onRefreshSuccess ??= (_) => null;
 
-    if (this is _FetchSuccess<Content>) {
-      return onFetchSuccess((this as _FetchSuccess<Content>).content);
+    final self = this;
+    if (self is _FetchSuccess<Content>) {
+      return onFetchSuccess(self.content);
     }
-    if (this is _FetchLoading<Content>) {
+    if (self is _FetchLoading<Content>) {
       return onFetchLoading();
     }
-    if (this is _FetchFailure<Content>) {
-      return onFetchFailure((this as _FetchFailure<Content>).error);
+    if (self is _FetchFailure<Content>) {
+      return onFetchFailure(self.error);
     }
-    if (this is _RefreshSuccess<Content>) {
-      return onRefreshSuccess((this as _RefreshSuccess<Content>).content);
+    if (self is _RefreshSuccess<Content>) {
+      return onRefreshSuccess(self.content);
     }
-    throw StateError('Unknown type of $this');
+    throw StateError('Unknown type of $self');
   }
 }
 
@@ -66,7 +67,7 @@ class _FetchSuccess<Content> extends LoaderPartialStateChange<Content> {
   int get hashCode => content.hashCode;
 
   @override
-  String toString() => '_FetchSuccess{content: $content}';
+  String toString() => 'FetchSuccess { content: $content }';
 }
 
 class _FetchLoading<Content> extends LoaderPartialStateChange<Content> {
@@ -81,7 +82,7 @@ class _FetchLoading<Content> extends LoaderPartialStateChange<Content> {
   int get hashCode => 0;
 
   @override
-  String toString() => '_FetchLoading{}';
+  String toString() => 'FetchLoading { }';
 }
 
 class _FetchFailure<Content> extends LoaderPartialStateChange<Content> {
@@ -90,7 +91,7 @@ class _FetchFailure<Content> extends LoaderPartialStateChange<Content> {
   const _FetchFailure(this.error) : super._();
 
   @override
-  String toString() => '_FetchFailure{error: $error}';
+  String toString() => 'FetchFailure { error: $error }';
 
   @override
   bool operator ==(Object other) =>
@@ -109,7 +110,7 @@ class _RefreshSuccess<Content> extends LoaderPartialStateChange<Content> {
   const _RefreshSuccess(this.content) : super._();
 
   @override
-  String toString() => '_RefreshSuccess{content: $content}';
+  String toString() => 'RefreshSuccess { content: $content }';
 
   @override
   bool operator ==(Object other) =>

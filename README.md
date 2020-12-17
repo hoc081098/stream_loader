@@ -48,8 +48,8 @@ LoaderWidget<BuiltList<Comment>>(
   blocProvider: () => LoaderBloc(
     loaderFunction: api.getComments,
     refresherFunction: api.getComments,
-    initialContent: BuiltList.of([]),
-    enableLogger: true,
+    initialContent: <Comment>[].build(),
+    logger: print,
   ),
   messageHandler: (message, bloc) {
     message.fold(
@@ -86,7 +86,7 @@ LoaderWidget<Comment>(
     loaderFunction: loadDetail,
     refresherFunction: loadDetail,
     initialContent: comment,
-    enableLogger: true,
+    logger: print,
   ),
   messageHandler: (message, _) {
     message.fold(
@@ -103,6 +103,54 @@ LoaderWidget<Comment>(
     );
   },
 );
+```
+
+#### Note: Can use `LoaderBloc` without `LoaderWidget` easily
+```dart
+
+class _CommentsState extends State<Comments> {
+  LoaderBloc<BuiltList<Comment>> bloc;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    bloc ??= LoaderBloc(
+      loaderFunction: api.getComments,
+      refresherFunction: api.getComments,
+      initialContent: <Comment>[].build(),
+      logger: print,
+    )..fetch();
+  }
+
+  @override
+  void dispose() {
+    bloc.dispose();
+    super.dispose();
+  }
+  
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<LoaderState<BuiltList<Comment>>>(
+      stream: bloc.state$,
+      initialData: bloc.state$.value, // <- required because bloc.state$ does not replay the latest value
+      builder: (context, snapshot) {
+        final state = snapshot.data;
+        
+        if (state.error != null) {
+          return ErrorWidget(error: state.error);
+        }
+        if (state.isLoading) {
+          return LoadingWidget();
+        }
+        return RefreshIndicator(
+          onRefresh: bloc.refresh,
+          child: CommentsListWidget(comments: state.content),
+        );
+      }
+    );
+  }
+}
 ```
 
 ## License

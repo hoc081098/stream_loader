@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:stream_loader/src/loader_bloc.dart';
-import 'package:stream_loader/src/loader_message.dart';
-import 'package:stream_loader/src/loader_state.dart';
+
+import 'loader_bloc.dart';
+import 'loader_message.dart';
+import 'loader_state.dart';
 
 /// The [state] is nullable
 /// The [bloc] is nullable
@@ -43,7 +44,7 @@ class LoaderWidget<Content> extends StatefulWidget {
     LoaderMessageHandler<Content> messageHandler,
   })  : assert(blocProvider != null),
         assert(builder != null),
-        this.messageHandler = messageHandler ?? _emptyMessageHandler,
+        messageHandler = messageHandler ?? _emptyMessageHandler,
         super(key: key);
 
   @override
@@ -66,7 +67,21 @@ class _LoaderWidgetState<Content> extends State<LoaderWidget<Content>> {
     initBloc();
   }
 
+  @override
+  void didUpdateWidget(LoaderWidget<Content> oldWidget) {
+    super.didUpdateWidget(oldWidget);
+
+    if (widget.messageHandler != oldWidget.messageHandler) {
+      subscription?.cancel();
+      subscription = bloc?.message$
+          ?.listen((message) => widget.messageHandler(message, bloc));
+    }
+  }
+
   void initBloc() {
+    assert(bloc == null);
+    assert(subscription == null);
+
     bloc = widget.blocProvider();
     bloc?.fetch();
     subscription = bloc?.message$

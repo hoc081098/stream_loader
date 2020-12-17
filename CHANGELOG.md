@@ -1,3 +1,7 @@
+## 1.1.0-beta02 - Dec 17, 2020
+*   Update dependencies to latest version.
+*   Breaking change: changed `LoaderBloc({ bool enableLogger })` to `LoaderBloc({ void Function(String) logger })`.
+
 ## 1.1.0-beta01 - Oct 18, 2020
 
 *   Update dependencies to latest version.

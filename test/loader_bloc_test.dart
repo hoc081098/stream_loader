@@ -15,16 +15,6 @@ void main() {
           throwsAssertionError,
         );
       });
-
-      test('enableLogger', () {
-        expect(
-          () => LoaderBloc(
-            loaderFunction: () async* {},
-            enableLogger: null,
-          ),
-          throwsAssertionError,
-        );
-      });
     });
 
     group('LoaderFunction return a empty stream', () {
@@ -144,13 +134,13 @@ void main() {
 
         final loaderBloc = LoaderBloc<String>(
           loaderFunction: () async* {
-            for (int i = 0; i < repeatCount; i++) {
+            for (var i = 0; i < repeatCount; i++) {
               yield '$initialContent#$i';
               await _delay(multiDelay * (i + 1));
             }
           },
           initialContent: initialContent,
-          enableLogger: false,
+          logger: print,
         );
 
         final expectFuture = expectFunc(loaderBloc);
@@ -336,13 +326,12 @@ void main() {
         final loaderBloc = LoaderBloc<String>(
           loaderFunction: () => Stream.empty(),
           refresherFunction: () async* {
-            for (int i = 0; i < repeatCount; i++) {
+            for (var i = 0; i < repeatCount; i++) {
               yield '$initialContent#$i';
               await _delay(multiDelay * (i + 1));
             }
           },
           initialContent: initialContent,
-          enableLogger: false,
         );
 
         final expectFuture = expectFunc(loaderBloc);
