@@ -27,7 +27,7 @@ class DetailPage extends StatelessWidget {
                   loaderFunction: loadDetail,
                   refresherFunction: loadDetail,
                   initialContent: comment,
-                  enableLogger: true,
+                  logger: print,
                 );
               },
               messageHandler: (message, _) {

@@ -34,21 +34,20 @@ abstract class LoaderMessage<Content> {
     onRefreshFailure ??= (_, __) => null;
     onRefreshSuccess ??= (_) => null;
 
-    if (this is _FetchFailure<Content>) {
-      final failure = this as _FetchFailure<Content>;
-      return onFetchFailure(failure.error, failure.stackTrace);
+    final self = this;
+    if (self is _FetchFailure<Content>) {
+      return onFetchFailure(self.error, self.stackTrace);
     }
-    if (this is _FetchSuccess<Content>) {
-      return onFetchSuccess((this as _FetchSuccess<Content>).content);
+    if (self is _FetchSuccess<Content>) {
+      return onFetchSuccess(self.content);
     }
-    if (this is _RefreshFailure<Content>) {
-      final failure = this as _RefreshFailure<Content>;
-      return onRefreshFailure(failure.error, failure.stackTrace);
+    if (self is _RefreshFailure<Content>) {
+      return onRefreshFailure(self.error, self.stackTrace);
     }
-    if (this is _RefreshSuccess<Content>) {
-      return onRefreshSuccess((this as _RefreshSuccess<Content>).content);
+    if (self is _RefreshSuccess<Content>) {
+      return onRefreshSuccess(self.content);
     }
-    throw StateError('Unknown type $this');
+    throw StateError('Unknown type $self');
   }
 }
 
@@ -59,7 +58,8 @@ class _FetchFailure<Content> extends LoaderMessage<Content> {
   const _FetchFailure(this.error, this.stackTrace) : super._();
 
   @override
-  String toString() => '_FetchFailure{error: $error, stackTrace: $stackTrace}';
+  String toString() =>
+      'FetchFailure { error: $error, stackTrace: $stackTrace }';
 
   @override
   bool operator ==(Object other) =>
@@ -89,7 +89,7 @@ class _FetchSuccess<Content> extends LoaderMessage<Content> {
   int get hashCode => content.hashCode;
 
   @override
-  String toString() => '_FetchSuccess{content: $content}';
+  String toString() => 'FetchSuccess { content: $content }';
 }
 
 class _RefreshFailure<Content> extends LoaderMessage<Content> {
@@ -111,7 +111,7 @@ class _RefreshFailure<Content> extends LoaderMessage<Content> {
 
   @override
   String toString() =>
-      '_RefreshFailure{error: $error, stackTrace: $stackTrace}';
+      'RefreshFailure { error: $error, stackTrace: $stackTrace }';
 }
 
 class _RefreshSuccess<Content> extends LoaderMessage<Content> {
@@ -130,5 +130,5 @@ class _RefreshSuccess<Content> extends LoaderMessage<Content> {
   int get hashCode => content.hashCode;
 
   @override
-  String toString() => '_RefreshSuccess{content: $content}';
+  String toString() => 'RefreshSuccess { content: $content }';
 }

@@ -1,3 +1,4 @@
+import 'package:built_collection/built_collection.dart';
 import 'package:example/data/api.dart';
 import 'package:example/data/comment.dart';
 import 'package:example/detail_page.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
-import 'package:built_collection/built_collection.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -104,7 +104,7 @@ class HomePage extends StatelessWidget {
 
 extension SnackBarExt on BuildContext {
   void snackBar(String message) {
-    Scaffold.of(this).showSnackBar(
+    ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 2),
