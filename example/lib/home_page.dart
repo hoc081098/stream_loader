@@ -104,7 +104,8 @@ class HomePage extends StatelessWidget {
 
 extension SnackBarExt on BuildContext {
   void snackBar(String message) {
-    ScaffoldMessenger.of(this).showSnackBar(
+    // ignore: deprecated_member_use
+    Scaffold.of(this).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 2),
