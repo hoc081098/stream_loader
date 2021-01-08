@@ -7,18 +7,16 @@ part 'loader_state.g.dart';
 
 /// View state that exposed to widget builder
 @immutable
-abstract class LoaderState<Content>
+abstract class LoaderState<Content extends Object>
     implements Built<LoaderState<Content>, LoaderStateBuilder<Content>> {
   /// Content (should implements [Built] class from `built_value` package)
-  @nullable
-  Content get content;
+  Content? get content;
 
   /// Is fetching in-progress
   bool get isLoading;
 
   /// Error when fetching is failed
-  @nullable
-  Object get error;
+  Object? get error;
 
   LoaderState._();
 
@@ -27,7 +25,7 @@ abstract class LoaderState<Content>
       _$LoaderState<Content>;
 
   /// Initial view state with [content], [isLoading] is true and [error] is null
-  factory LoaderState.initial({Content content}) =>
+  factory LoaderState.initial({Content? content}) =>
       LoaderState<Content>((b) => b
         ..content = content
         ..isLoading = true

@@ -1,20 +1,8 @@
-import 'package:built_value/built_value.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stream_loader/src/loader_state.dart';
 
 void main() {
   group('LoaderState', () {
-    test('Throws if missing generic type', () {
-      expect(
-        () => LoaderState((b) => b
-          ..isLoading = true
-          ..content = 'Content'),
-        throwsA(
-          isInstanceOf<BuiltValueMissingGenericsError>(),
-        ),
-      );
-    });
-
     test('Create initial loader state', () {
       const content = 'This is content';
       final initial = LoaderState.initial(content: content);

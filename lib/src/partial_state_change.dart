@@ -14,7 +14,7 @@ abstract class LoaderPartialStateChange<Content> {
       _FetchLoading<Content>;
 
   /// Construct a change that represents a failed fetching
-  const factory LoaderPartialStateChange.fetchFailure(dynamic error) =
+  const factory LoaderPartialStateChange.fetchFailure(Object error) =
       _FetchFailure<Content>;
 
   /// Construct a change that represents a successful refreshing
@@ -23,17 +23,11 @@ abstract class LoaderPartialStateChange<Content> {
 
   /// Fold all cases into single value
   R fold<R>({
-    @required R Function(Content content) onFetchSuccess,
-    @required R Function() onFetchLoading,
-    @required R Function(dynamic error) onFetchFailure,
-    @required R Function(Content content) onRefreshSuccess,
+    required R Function(Content content) onFetchSuccess,
+    required R Function() onFetchLoading,
+    required R Function(Object error) onFetchFailure,
+    required R Function(Content content) onRefreshSuccess,
   }) {
-    // avoid null error
-    onFetchSuccess ??= (_) => null;
-    onFetchLoading ??= () => null;
-    onFetchFailure ??= (_) => null;
-    onRefreshSuccess ??= (_) => null;
-
     final self = this;
     if (self is _FetchSuccess<Content>) {
       return onFetchSuccess(self.content);
@@ -86,7 +80,7 @@ class _FetchLoading<Content> extends LoaderPartialStateChange<Content> {
 }
 
 class _FetchFailure<Content> extends LoaderPartialStateChange<Content> {
-  final dynamic error;
+  final Object error;
 
   const _FetchFailure(this.error) : super._();
 

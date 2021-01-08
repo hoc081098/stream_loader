@@ -7,7 +7,7 @@ abstract class LoaderMessage<Content> {
 
   /// Construct a message that represents a failed fetching
   const factory LoaderMessage.fetchFailure(
-      dynamic error, StackTrace stackTrace) = _FetchFailure<Content>;
+      Object error, StackTrace stackTrace) = _FetchFailure<Content>;
 
   /// Construct a message that represents a successful fetching
   const factory LoaderMessage.fetchSuccess(Content content) =
@@ -15,7 +15,7 @@ abstract class LoaderMessage<Content> {
 
   /// Construct a message that represents a failed refreshing
   const factory LoaderMessage.refreshFailure(
-      dynamic error, StackTrace stackTrace) = _RefreshFailure<Content>;
+      Object error, StackTrace stackTrace) = _RefreshFailure<Content>;
 
   /// Construct a message that represents a successful refreshing
   const factory LoaderMessage.refreshSuccess(Content content) =
@@ -23,17 +23,11 @@ abstract class LoaderMessage<Content> {
 
   /// Fold all cases into single value
   R fold<R>({
-    @required R Function(dynamic error, StackTrace stackTrace) onFetchFailure,
-    @required R Function(Content data) onFetchSuccess,
-    @required R Function(dynamic error, StackTrace stackTrace) onRefreshFailure,
-    @required R Function(Content data) onRefreshSuccess,
+    required R Function(Object error, StackTrace stackTrace) onFetchFailure,
+    required R Function(Content data) onFetchSuccess,
+    required R Function(Object error, StackTrace stackTrace) onRefreshFailure,
+    required R Function(Content data) onRefreshSuccess,
   }) {
-    // avoid null error
-    onFetchFailure ??= (_, __) => null;
-    onFetchSuccess ??= (_) => null;
-    onRefreshFailure ??= (_, __) => null;
-    onRefreshSuccess ??= (_) => null;
-
     final self = this;
     if (self is _FetchFailure<Content>) {
       return onFetchFailure(self.error, self.stackTrace);
@@ -52,7 +46,7 @@ abstract class LoaderMessage<Content> {
 }
 
 class _FetchFailure<Content> extends LoaderMessage<Content> {
-  final dynamic error;
+  final Object error;
   final StackTrace stackTrace;
 
   const _FetchFailure(this.error, this.stackTrace) : super._();
@@ -93,7 +87,7 @@ class _FetchSuccess<Content> extends LoaderMessage<Content> {
 }
 
 class _RefreshFailure<Content> extends LoaderMessage<Content> {
-  final dynamic error;
+  final Object error;
   final StackTrace stackTrace;
 
   const _RefreshFailure(this.error, this.stackTrace) : super._();

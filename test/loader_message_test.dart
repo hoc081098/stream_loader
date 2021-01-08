@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stream_loader/stream_loader.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_loader/stream_loader.dart';
 
 @alwaysThrows
 void _aThrowsFunction() {
@@ -48,18 +48,18 @@ void main() {
             expect(stackTrace, s);
             return 50;
           },
-          onFetchSuccess: null,
-          onRefreshFailure: null,
-          onRefreshSuccess: null,
+          onFetchSuccess: (_) => null,
+          onRefreshFailure: (_, __) => null,
+          onRefreshSuccess: (_) => null,
         );
         expect(value, 50);
 
         expect(
           loaderMessage.fold(
-            onFetchFailure: null,
-            onFetchSuccess: null,
-            onRefreshFailure: null,
-            onRefreshSuccess: null,
+            onFetchFailure: (_, __) => null,
+            onFetchSuccess: (_) => null,
+            onRefreshFailure: (_, __) => null,
+            onRefreshSuccess: (_) => null,
           ),
           isNull,
         );
@@ -70,19 +70,19 @@ void main() {
       const content = 'This is content';
       const loaderMessage = LoaderMessage.fetchSuccess(content);
       final value = loaderMessage.fold(
-        onFetchFailure: null,
+        onFetchFailure: (_, __) => null,
         onFetchSuccess: (c) => c + '#Fold',
-        onRefreshFailure: null,
-        onRefreshSuccess: null,
+        onRefreshFailure: (_, __) => null,
+        onRefreshSuccess: (_) => null,
       );
       expect(value, content + '#Fold');
 
       expect(
         loaderMessage.fold(
-          onFetchFailure: null,
-          onFetchSuccess: null,
-          onRefreshFailure: null,
-          onRefreshSuccess: null,
+          onFetchFailure: (_, __) => null,
+          onFetchSuccess: (_) => null,
+          onRefreshFailure: (_, __) => null,
+          onRefreshSuccess: (_) => null,
         ),
         isNull,
       );
@@ -100,18 +100,18 @@ void main() {
             expect(stackTrace, s);
             return 50;
           },
-          onFetchSuccess: null,
-          onFetchFailure: null,
-          onRefreshSuccess: null,
+          onFetchSuccess: (_) => null,
+          onFetchFailure: (_, __) => null,
+          onRefreshSuccess: (_) => null,
         );
         expect(value, 50);
 
         expect(
           loaderMessage.fold(
-            onFetchFailure: null,
-            onFetchSuccess: null,
-            onRefreshFailure: null,
-            onRefreshSuccess: null,
+            onFetchFailure: (_, __) => null,
+            onFetchSuccess: (_) => null,
+            onRefreshFailure: (_, __) => null,
+            onRefreshSuccess: (_) => null,
           ),
           isNull,
         );
@@ -122,19 +122,19 @@ void main() {
       const content = 'This is content';
       const loaderMessage = LoaderMessage.refreshSuccess(content);
       final value = loaderMessage.fold(
-        onFetchFailure: null,
+        onFetchFailure: (_, __) => null,
         onRefreshSuccess: (c) => c + '#Fold',
-        onRefreshFailure: null,
-        onFetchSuccess: null,
+        onRefreshFailure: (_, __) => null,
+        onFetchSuccess: (_) => null,
       );
       expect(value, content + '#Fold');
 
       expect(
         loaderMessage.fold(
-          onFetchFailure: null,
-          onFetchSuccess: null,
-          onRefreshFailure: null,
-          onRefreshSuccess: null,
+          onFetchFailure: (_, __) => null,
+          onFetchSuccess: (_) => null,
+          onRefreshFailure: (_, __) => null,
+          onRefreshSuccess: (_) => null,
         ),
         isNull,
       );
@@ -172,14 +172,14 @@ void main() {
       final exception = Exception();
       // fetchFailure
       expect(
-        LoaderMessage.fetchFailure(exception, null),
-        LoaderMessage.fetchFailure(exception, null),
+        LoaderMessage.fetchFailure(exception, StackTrace.empty),
+        LoaderMessage.fetchFailure(exception, StackTrace.empty),
       );
 
       // refreshFailure
       expect(
-        LoaderMessage.refreshFailure(exception, null),
-        LoaderMessage.refreshFailure(exception, null),
+        LoaderMessage.refreshFailure(exception, StackTrace.empty),
+        LoaderMessage.refreshFailure(exception, StackTrace.empty),
       );
     });
 
@@ -215,14 +215,14 @@ void main() {
       final exception = Exception();
       // fetchFailure
       expect(
-        LoaderMessage.fetchFailure(exception, null).hashCode,
-        LoaderMessage.fetchFailure(exception, null).hashCode,
+        LoaderMessage.fetchFailure(exception, StackTrace.empty).hashCode,
+        LoaderMessage.fetchFailure(exception, StackTrace.empty).hashCode,
       );
 
       // refreshFailure
       expect(
-        LoaderMessage.refreshFailure(exception, null).hashCode,
-        LoaderMessage.refreshFailure(exception, null).hashCode,
+        LoaderMessage.refreshFailure(exception, StackTrace.empty).hashCode,
+        LoaderMessage.refreshFailure(exception, StackTrace.empty).hashCode,
       );
     });
   });
