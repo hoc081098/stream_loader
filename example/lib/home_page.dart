@@ -52,12 +52,15 @@ class HomePage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
+                var items = state.content;
+
                 return RefreshIndicator(
                   child: ListView.separated(
                     physics: AlwaysScrollableScrollPhysics(),
-                    itemCount: state.content.length,
+                    itemCount: items.length,
                     itemBuilder: (context, index) {
-                      var comment = state.content[index];
+                      var comment = items[index];
+
                       return ListTile(
                         leading: CircleAvatar(
                           child: Text(comment.name[0]),
