@@ -4,7 +4,7 @@ import 'package:disposebag/disposebag.dart' show DisposeBag;
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart'
     show DistinctValueConnectableExtensions, DistinctValueStream;
 import 'package:meta/meta.dart' show visibleForTesting;
-import 'package:rxdart/rxdart.dart'
+import 'package:rxdart_ext/rxdart_ext.dart'
     show
         PublishSubject,
         Rx,

@@ -1,10 +1,6 @@
-// GENERATED CODE - DO NOT MODIFY BY HAND
-
 part of 'loader_state.dart';
 
-// **************************************************************************
-// BuiltValueGenerator
-// **************************************************************************
+// ignore_for_file: hash_and_equals, public_member_api_docs, must_be_immutable
 
 class _$LoaderState<Content extends Object> extends LoaderState<Content> {
   @override
@@ -16,14 +12,15 @@ class _$LoaderState<Content extends Object> extends LoaderState<Content> {
 
   factory _$LoaderState(
           [void Function(LoaderStateBuilder<Content>)? updates]) =>
-      (new LoaderStateBuilder<Content>()..update(updates)).build();
+      (LoaderStateBuilder<Content>()..update(updates)).build();
 
   _$LoaderState._({this.content, required this.isLoading, this.error})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(
-        isLoading, 'LoaderState', 'isLoading');
+    ArgumentError.checkNotNull(isLoading, 'isLoading');
     if (Content == dynamic) {
-      throw new BuiltValueMissingGenericsError('LoaderState', 'Content');
+      throw StateError(
+          'Tried to construct class "LoaderState" with missing or dynamic '
+          'type argument "Content". All type arguments must be specified.');
     }
   }
 
@@ -32,9 +29,8 @@ class _$LoaderState<Content extends Object> extends LoaderState<Content> {
           void Function(LoaderStateBuilder<Content>) updates) =>
       (toBuilder()..update(updates)).build();
 
-  @override
   LoaderStateBuilder<Content> toBuilder() =>
-      new LoaderStateBuilder<Content>()..replace(this);
+      LoaderStateBuilder<Content>()..replace(this);
 
   @override
   bool operator ==(Object other) {
@@ -46,36 +42,52 @@ class _$LoaderState<Content extends Object> extends LoaderState<Content> {
   }
 
   int? __hashCode;
+
   @override
   int get hashCode {
-    return __hashCode ??= $jf(
-        $jc($jc($jc(0, content.hashCode), isLoading.hashCode), error.hashCode));
+    return __hashCode ??= _$jf(
+      _$jc(
+        _$jc(
+          _$jc(
+            0,
+            content.hashCode,
+          ),
+          isLoading.hashCode,
+        ),
+        error.hashCode,
+      ),
+    );
   }
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('LoaderState')
-          ..add('content', content)
-          ..add('isLoading', isLoading)
-          ..add('error', error))
-        .toString();
+    return 'LoaderState {\n'
+        '  isLoading=$isLoading,\n'
+        '  error=$error,\n'
+        '  content=$content,\n'
+        '}';
   }
 }
 
-class LoaderStateBuilder<Content extends Object>
-    implements Builder<LoaderState<Content>, LoaderStateBuilder<Content>> {
+class LoaderStateBuilder<Content extends Object> {
   _$LoaderState<Content>? _$v;
 
   Content? _content;
+
   Content? get content => _$this._content;
+
   set content(Content? content) => _$this._content = content;
 
   bool? _isLoading;
+
   bool? get isLoading => _$this._isLoading;
+
   set isLoading(bool? isLoading) => _$this._isLoading = isLoading;
 
   Object? _error;
+
   Object? get error => _$this._error;
+
   set error(Object? error) => _$this._error = error;
 
   LoaderStateBuilder();
@@ -91,28 +103,39 @@ class LoaderStateBuilder<Content extends Object>
     return this;
   }
 
-  @override
   void replace(LoaderState<Content> other) {
     ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$LoaderState<Content>;
   }
 
-  @override
   void update(void Function(LoaderStateBuilder<Content>)? updates) {
     if (updates != null) updates(this);
   }
 
-  @override
   _$LoaderState<Content> build() {
     final _$result = _$v ??
-        new _$LoaderState<Content>._(
-            content: content,
-            isLoading: BuiltValueNullFieldError.checkNotNull(
-                isLoading, 'LoaderState', 'isLoading'),
-            error: error);
+        _$LoaderState<Content>._(
+          content: content,
+          isLoading: ArgumentError.checkNotNull(isLoading, 'isLoading'),
+          error: error,
+        );
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+/// For use by generated code in calculating hash codes. Do not use directly.
+int _$jc(int hash, int value) {
+  // Jenkins hash "combine".
+  hash = 0x1fffffff & (hash + value);
+  hash = 0x1fffffff & (hash + ((0x0007ffff & hash) << 10));
+  return hash ^ (hash >> 6);
+}
+
+/// For use by generated code in calculating hash codes. Do not use directly.
+int _$jf(int hash) {
+  // Jenkins hash "finish".
+  hash = 0x1fffffff & (hash + ((0x03ffffff & hash) << 3));
+  hash = hash ^ (hash >> 11);
+  return 0x1fffffff & (hash + ((0x00003fff & hash) << 15));
+}

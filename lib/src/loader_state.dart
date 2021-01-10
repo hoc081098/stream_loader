@@ -1,15 +1,11 @@
-import 'package:built_value/built_value.dart';
 import 'package:flutter/foundation.dart';
 
 part 'loader_state.g.dart';
 
-// ignore_for_file: hash_and_equals
-
 /// View state that exposed to widget builder
 @immutable
-abstract class LoaderState<Content extends Object>
-    implements Built<LoaderState<Content>, LoaderStateBuilder<Content>> {
-  /// Content (should implements [Built] class from `built_value` package)
+abstract class LoaderState<Content extends Object> {
+  /// Content (should implements `Built` class from `built_value` package)
   Content? get content;
 
   /// Is fetching in-progress
@@ -31,7 +27,13 @@ abstract class LoaderState<Content extends Object>
         ..isLoading = true
         ..error = null);
 
-  @memoized
   @override
   int get hashCode;
+
+  /// Rebuilds the instance.
+  ///
+  /// The result is the same as this instance but with [updates] applied.
+  /// [updates] is a function that takes a builder [B].
+  LoaderState<Content> rebuild(
+      void Function(LoaderStateBuilder<Content>) updates);
 }

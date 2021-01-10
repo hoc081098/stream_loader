@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:rxdart/rxdart.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_message.dart';
 import 'package:stream_loader/src/loader_state.dart';
