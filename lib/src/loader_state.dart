@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 
-part 'loader_state.g.dart';
+part 'loader_state.impl.dart';
 
 /// View state that exposed to widget builder
 @immutable

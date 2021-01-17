@@ -7,15 +7,14 @@ import 'loader_bloc.dart';
 import 'loader_message.dart';
 import 'loader_state.dart';
 
-/// The [state] is nullable
-/// The [bloc] is nullable
+/// Signature for strategies that build widgets based on [LoaderState].
 typedef LoaderBuilder<Content extends Object> = Widget Function(
   BuildContext context,
   LoaderState<Content> state,
   LoaderBloc<Content> bloc,
 );
 
-/// The [bloc] is nullable
+/// The handler for [LoaderMessage].
 typedef LoaderMessageHandler<Content extends Object> = void Function(
   LoaderMessage<Content> message,
   LoaderBloc<Content> bloc,
