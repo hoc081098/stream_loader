@@ -132,7 +132,6 @@ void main() {
             }
           },
           initialContent: initialContent,
-          // logger: print,
         );
 
         final expectFuture = expectFunc(loaderBloc);
