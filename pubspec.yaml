@@ -1,5 +1,5 @@
 name: stream_loader
-description: A flutter plugin for loading content asynchronously with Dart stream.
+description: A flutter plugin for loading content asynchronously with Dart stream. RxDart loader bloc.
 version: 1.1.0-nullsafety.0
 homepage: https://github.com/hoc081098/stream_loader.git
 repository: https://github.com/hoc081098/stream_loader.git
