@@ -27,9 +27,6 @@ abstract class LoaderState<Content extends Object> {
         ..isLoading = true
         ..error = null);
 
-  @override
-  int get hashCode;
-
   /// Rebuilds the instance.
   ///
   /// The result is the same as this instance but with [updates] applied.
