@@ -1,5 +1,7 @@
 import 'package:flutter/foundation.dart';
 
+// ignore_for_file: unnecessary_null_comparison
+
 /// Class that represents a partial state change
 @immutable
 abstract class LoaderPartialStateChange<Content> {
@@ -28,6 +30,11 @@ abstract class LoaderPartialStateChange<Content> {
     required R Function(Object error) onFetchFailure,
     required R Function(Content content) onRefreshSuccess,
   }) {
+    assert(onFetchSuccess != null);
+    assert(onFetchLoading != null);
+    assert(onFetchFailure != null);
+    assert(onRefreshSuccess != null);
+
     final self = this;
     if (self is _FetchSuccess<Content>) {
       return onFetchSuccess(self.content);

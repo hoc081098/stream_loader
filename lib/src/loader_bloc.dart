@@ -20,6 +20,8 @@ import 'loader_state.dart';
 import 'partial_state_change.dart';
 import 'utils.dart';
 
+// ignore_for_file: close_sinks, unnecessary_null_comparison
+
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content extends Object> {
   static const _tag = '« stream_loader »';
@@ -62,9 +64,9 @@ class LoaderBloc<Content extends Object> {
     Content? initialContent,
     void Function(String)? logger,
   }) {
+    assert(loaderFunction != null, 'loaderFunction cannot be null');
     refresherFunction ??= () => Stream<Content>.empty();
 
-    // ignore_for_file: close_sinks
     /// Controllers
     final fetchS = StreamController<void>();
     final refreshS = StreamController<Completer<void>>();
