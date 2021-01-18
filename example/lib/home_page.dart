@@ -112,6 +112,7 @@ extension SnackBarExt on BuildContext {
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 2),
+        behavior: SnackBarBehavior.floating,
       ),
     );
   }
