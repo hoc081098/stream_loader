@@ -1,15 +1,17 @@
-import 'package:example/data/api.dart';
-import 'package:example/data/comment.dart';
-import 'package:example/home_page.dart' show SnackBarExt;
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
+
+import 'data/api.dart';
+import 'data/comment.dart';
+import 'home_page.dart' show SnackBarExt;
 
 class DetailPage extends StatelessWidget {
   final Comment comment;
 
   const DetailPage({Key key, @required this.comment}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(

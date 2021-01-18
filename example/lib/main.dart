@@ -1,11 +1,12 @@
-import 'package:example/data/api.dart';
-import 'package:example/home_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:http/http.dart' as http;
 
+import 'data/api.dart';
+import 'home_page.dart';
+
 void main() {
-  var api = Api(http.Client());
+  final api = Api(http.Client());
   runApp(
     Provider<Api>(
       child: MyApp(),
@@ -15,7 +16,6 @@ void main() {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(

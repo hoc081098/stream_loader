@@ -1,11 +1,12 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:example/data/api.dart';
-import 'package:example/data/comment.dart';
-import 'package:example/detail_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
+
+import 'data/api.dart';
+import 'data/comment.dart';
+import 'detail_page.dart';
 
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
@@ -52,14 +53,14 @@ class HomePage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
-                var items = state.content;
+                final items = state.content;
 
                 return RefreshIndicator(
                   child: ListView.separated(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: items.length,
                     itemBuilder: (context, index) {
-                      var comment = items[index];
+                      final comment = items[index];
 
                       return ListTile(
                         leading: CircleAvatar(
