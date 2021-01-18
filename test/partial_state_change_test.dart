@@ -1,6 +1,6 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:stream_loader/src/partial_state_change.dart';
 import 'package:meta/meta.dart';
+import 'package:stream_loader/src/partial_state_change.dart';
 
 @alwaysThrows
 void _aThrowsFunction() {
@@ -39,22 +39,22 @@ void main() {
       } catch (ex) {
         final partialStateChange = LoaderPartialStateChange.fetchFailure(ex);
         final value = partialStateChange.fold(
-          onRefreshSuccess: null,
-          onFetchLoading: null,
+          onRefreshSuccess: (_) => null,
+          onFetchLoading: () => null,
           onFetchFailure: (e) {
             expect(ex, e);
             return 50;
           },
-          onFetchSuccess: null,
+          onFetchSuccess: (_) => null,
         );
         expect(value, 50);
 
         expect(
           partialStateChange.fold(
-            onFetchSuccess: null,
-            onFetchLoading: null,
-            onFetchFailure: null,
-            onRefreshSuccess: null,
+            onFetchSuccess: (_) => null,
+            onFetchLoading: () => null,
+            onFetchFailure: (_) => null,
+            onRefreshSuccess: (_) => null,
           ),
           isNull,
         );
@@ -65,19 +65,19 @@ void main() {
       const content = 'This is content';
       const partialStateChange = LoaderPartialStateChange.fetchSuccess(content);
       final value = partialStateChange.fold(
-        onFetchFailure: null,
+        onFetchFailure: (_) => null,
         onFetchSuccess: (c) => c + '#Fold',
-        onRefreshSuccess: null,
-        onFetchLoading: null,
+        onRefreshSuccess: (_) => null,
+        onFetchLoading: () => null,
       );
       expect(value, content + '#Fold');
 
       expect(
         partialStateChange.fold(
-          onFetchSuccess: null,
-          onFetchLoading: null,
-          onFetchFailure: null,
-          onRefreshSuccess: null,
+          onFetchSuccess: (_) => null,
+          onFetchLoading: () => null,
+          onFetchFailure: (_) => null,
+          onRefreshSuccess: (_) => null,
         ),
         isNull,
       );
@@ -87,21 +87,21 @@ void main() {
       const expected = '#Fold';
       const partialStateChange = LoaderPartialStateChange.fetchLoading();
       final value = partialStateChange.fold(
-        onFetchSuccess: null,
+        onFetchSuccess: (_) => null,
         onFetchLoading: () {
           return expected;
         },
-        onFetchFailure: null,
-        onRefreshSuccess: null,
+        onFetchFailure: (_) => null,
+        onRefreshSuccess: (_) => null,
       );
       expect(value, expected);
 
       expect(
         partialStateChange.fold(
-          onFetchSuccess: null,
-          onFetchLoading: null,
-          onFetchFailure: null,
-          onRefreshSuccess: null,
+          onFetchSuccess: (_) => null,
+          onFetchLoading: () => null,
+          onFetchFailure: (_) => null,
+          onRefreshSuccess: (_) => null,
         ),
         isNull,
       );
@@ -112,19 +112,19 @@ void main() {
       const partialStateChange =
           LoaderPartialStateChange.refreshSuccess(content);
       final value = partialStateChange.fold(
-        onFetchFailure: null,
+        onFetchFailure: (_) => null,
         onRefreshSuccess: (c) => c + '#Fold',
-        onFetchSuccess: null,
-        onFetchLoading: null,
+        onFetchSuccess: (_) => null,
+        onFetchLoading: () => null,
       );
       expect(value, content + '#Fold');
 
       expect(
         partialStateChange.fold(
-          onFetchSuccess: null,
-          onFetchLoading: null,
-          onFetchFailure: null,
-          onRefreshSuccess: null,
+          onFetchSuccess: (_) => null,
+          onFetchLoading: () => null,
+          onFetchFailure: (_) => null,
+          onRefreshSuccess: (_) => null,
         ),
         isNull,
       );

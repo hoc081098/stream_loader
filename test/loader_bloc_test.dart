@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:rxdart_ext/rxdart_ext.dart';
 import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_message.dart';
 import 'package:stream_loader/src/loader_state.dart';
@@ -8,15 +9,6 @@ Future<void> _delay(int milliseconds) =>
 
 void main() {
   group('LoaderBloc', () {
-    group('Assert', () {
-      test('loaderFunction', () {
-        expect(
-          () => LoaderBloc(loaderFunction: null),
-          throwsAssertionError,
-        );
-      });
-    });
-
     group('LoaderFunction return a empty stream', () {
       test('Emit done event', () async {
         const initialContent = 'Initial content';
@@ -74,7 +66,7 @@ void main() {
           initialContent: initialContent,
         );
 
-        expect(loaderBloc.state$.value, initialState);
+        expect(loaderBloc.state$.requireValue, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
           emitsInOrder([
@@ -130,7 +122,7 @@ void main() {
       ) async {
         final totalTime =
             List.generate(repeatCount, (i) => (i + 1) * multiDelay)
-                .fold(0, (a, e) => a + e);
+                .fold<int>(0, (a, e) => a + e);
 
         final loaderBloc = LoaderBloc<String>(
           loaderFunction: () async* {
@@ -206,16 +198,21 @@ void main() {
     });
 
     group('RefreshFunction return a empty stream', () {
-      test('Emit done event', () async {
-        const initialContent = 'Initial content';
-        final initialState = LoaderState.initial(content: initialContent);
+      const initialContent = 'Initial content';
+      final initialState = LoaderState.initial(content: initialContent);
 
-        final loaderBloc = LoaderBloc<String>(
+      late LoaderBloc<String> loaderBloc;
+
+      setUp(() {
+        loaderBloc = LoaderBloc<String>(
           loaderFunction: () async* {},
           initialContent: initialContent,
-          refresherFunction: () async* {},
         );
+      });
 
+      tearDown(() => loaderBloc.dispose());
+
+      test('Emit done event', () async {
         expect(loaderBloc.state$.value, initialState);
         final expectFuture = expectLater(
           loaderBloc.state$,
@@ -232,14 +229,6 @@ void main() {
       });
 
       test('Message stream is empty', () async {
-        const initialContent = 'Initial content';
-
-        final loaderBloc = LoaderBloc<String>(
-          loaderFunction: () async* {},
-          initialContent: initialContent,
-          refresherFunction: () async* {},
-        );
-
         final expectFuture = expectLater(
           loaderBloc.message$,
           emitsDone,
@@ -321,7 +310,7 @@ void main() {
       ) async {
         final totalTime =
             List.generate(repeatCount, (i) => (i + 1) * multiDelay)
-                .fold(0, (a, e) => a + e);
+                .fold<int>(0, (a, e) => a + e);
 
         final loaderBloc = LoaderBloc<String>(
           loaderFunction: () => Stream.empty(),

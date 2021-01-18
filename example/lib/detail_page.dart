@@ -1,15 +1,17 @@
-import 'package:example/data/api.dart';
-import 'package:example/data/comment.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
-import 'package:example/home_page.dart' show SnackBarExt;
+
+import 'data/api.dart';
+import 'data/comment.dart';
+import 'home_page.dart' show SnackBarExt;
 
 class DetailPage extends StatelessWidget {
   final Comment comment;
 
   const DetailPage({Key key, @required this.comment}) : super(key: key);
 
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -32,14 +34,15 @@ class DetailPage extends StatelessWidget {
               },
               messageHandler: (message, _) {
                 message.fold(
-                  onFetchFailure: null,
-                  onFetchSuccess: null,
-                  onRefreshFailure: null,
+                  onFetchFailure: (_, __) => null,
+                  onFetchSuccess: (_) => null,
+                  onRefreshFailure: (_, __) => null,
                   onRefreshSuccess: (_) => context.snackBar('Refresh success'),
                 );
               },
               builder: (context, state, bloc) {
-                var comment = state.content;
+                final comment = state.content;
+
                 return RefreshIndicator(
                   onRefresh: bloc.refresh,
                   child: Center(

@@ -3,8 +3,8 @@ import 'dart:async';
 import 'package:disposebag/disposebag.dart' show DisposeBag;
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart'
     show DistinctValueConnectableExtensions, DistinctValueStream;
-import 'package:meta/meta.dart' show required, visibleForTesting;
-import 'package:rxdart/rxdart.dart'
+import 'package:meta/meta.dart' show visibleForTesting;
+import 'package:rxdart_ext/rxdart_ext.dart'
     show
         PublishSubject,
         Rx,
@@ -20,8 +20,10 @@ import 'loader_state.dart';
 import 'partial_state_change.dart';
 import 'utils.dart';
 
+// ignore_for_file: close_sinks, unnecessary_null_comparison
+
 /// BLoC that handles loading and refreshing data
-class LoaderBloc<Content> {
+class LoaderBloc<Content extends Object> {
   static const _tag = '« stream_loader »';
 
   /// View state stream
@@ -40,11 +42,11 @@ class LoaderBloc<Content> {
   final Future<void> Function() dispose;
 
   LoaderBloc._({
-    @required this.dispose,
-    @required this.state$,
-    @required this.fetch,
-    @required this.refresh,
-    @required this.message$,
+    required this.dispose,
+    required this.state$,
+    required this.fetch,
+    required this.refresh,
+    required this.message$,
   });
 
   /// Construct a [LoaderBloc]
@@ -57,15 +59,14 @@ class LoaderBloc<Content> {
   ///
   /// The [initialContent] is used to create initial view state (can be null)
   factory LoaderBloc({
-    @required Stream<Content> Function() loaderFunction,
-    Stream<Content> Function() refresherFunction,
-    Content initialContent,
-    void Function(String) logger,
+    required Stream<Content> Function() loaderFunction,
+    Stream<Content> Function()? refresherFunction,
+    Content? initialContent,
+    void Function(String)? logger,
   }) {
     assert(loaderFunction != null, 'loaderFunction cannot be null');
-    refresherFunction ??= () => Stream.empty();
+    refresherFunction ??= () => Stream<Content>.empty();
 
-    // ignore_for_file: close_sinks
     /// Controllers
     final fetchS = StreamController<void>();
     final refreshS = StreamController<Completer<void>>();
@@ -80,16 +81,18 @@ class LoaderBloc<Content> {
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.fetchSuccess(content))
           .startWith(const LoaderPartialStateChange.fetchLoading())
-          .doOnError((e, s) => messageS.add(LoaderMessage.fetchFailure(e, s)))
+          .doOnError((e, s) => messageS
+              .add(LoaderMessage.fetchFailure(e, s ?? StackTrace.current)))
           .onErrorReturnWith((e) => LoaderPartialStateChange.fetchFailure(e)),
     );
     final refreshChanges = refreshS.stream.exhaustMap(
-      (completer) => Rx.defer(refresherFunction)
+      (completer) => Rx.defer(refresherFunction!)
           .doOnData(
               (content) => messageS.add(LoaderMessage.refreshSuccess(content)))
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.refreshSuccess(content))
-          .doOnError((e, s) => messageS.add(LoaderMessage.refreshFailure(e, s)))
+          .doOnError((e, s) => messageS
+              .add(LoaderMessage.refreshFailure(e, s ?? StackTrace.current)))
           .onErrorResumeNext(Stream.empty())
           .doOnDone(() => completer.complete()),
     );
@@ -135,11 +138,12 @@ class LoaderBloc<Content> {
 
   /// Return new [LoaderState] from old [state] and partial state [change]
   @visibleForTesting
-  static LoaderState<Content> reduce<Content>(
-    LoaderState<Content> state,
+  static LoaderState<Content> reduce<Content extends Object>(
+    LoaderState<Content>? acc,
     LoaderPartialStateChange<Content> change,
     int _,
   ) {
+    final state = acc!;
     return change.fold(
       onRefreshSuccess: (content) => state.rebuild((b) => b
         ..content = content

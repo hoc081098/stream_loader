@@ -1,11 +1,11 @@
 import 'package:built_value/built_value.dart';
 import 'package:built_value/serializer.dart';
 
+import 'serializers.dart';
+
 part 'comment.g.dart';
 
 abstract class Comment implements Built<Comment, CommentBuilder> {
-  static Serializer<Comment> get serializer => _$commentSerializer;
-
   int get postId;
 
   int get id;
@@ -19,4 +19,11 @@ abstract class Comment implements Built<Comment, CommentBuilder> {
   Comment._();
 
   factory Comment([void Function(CommentBuilder) updates]) = _$Comment;
+
+  static Serializer<Comment> get serializer => _$commentSerializer;
+
+  factory Comment.fromJson(Map<String, dynamic> json) =>
+      serializers.deserializeWith<Comment>(serializer, json);
+
+  Map<String, dynamic> toJson() => serializers.serializeWith(serializer, this);
 }

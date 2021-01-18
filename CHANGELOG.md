@@ -1,3 +1,11 @@
+## 1.1.0-nullsafety.0 - Jan 18, 2021
+*   Migrate this package to null safety.
+*   Sdk constraints: `>=2.12.0-0 <3.0.0` based on beta release guidelines.
+*   `LoaderMessage.fold` requires all arguments are not null.
+*   Dependencies:
+    -   Depends on [rxdart_ext](https://pub.dev/packages/rxdart_ext). 
+    -   Removed [built_value](https://pub.dev/packages/built_value).
+
 ## 1.1.0-beta02 - Dec 17, 2020
 *   Update dependencies to latest version.
 *   Breaking change: changed `LoaderBloc({ bool enableLogger })` to `LoaderBloc({ void Function(String) logger })`.

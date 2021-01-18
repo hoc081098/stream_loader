@@ -2,16 +2,19 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
+import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
 import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_state.dart';
 import 'package:stream_loader/src/loader_widget.dart';
 
-class BlocProviderMock<T> extends Mock {
+import 'loader_widget_test.mocks.dart';
+
+abstract class BlocProvider<T extends Object> {
   LoaderBloc<T> call();
 }
 
-class MockBuilder<T> extends Mock {
+abstract class LoaderBuilder<T extends Object> {
   Widget call(
     BuildContext context,
     LoaderState<T> state,
@@ -19,32 +22,9 @@ class MockBuilder<T> extends Mock {
   );
 }
 
+@GenerateMocks([BlocProvider, LoaderBuilder])
 void main() {
   group('LoaderWidget', () {
-    group('Assert', () {
-      test('blocProvider', () {
-        expect(
-          () => LoaderWidget<String>(
-            blocProvider: null,
-            builder: (context, state, bloc) => Container(),
-          ),
-          throwsAssertionError,
-        );
-      });
-
-      test('builder', () {
-        expect(
-          () => LoaderWidget<String>(
-            blocProvider: () => LoaderBloc(
-              loaderFunction: () => Stream.empty(),
-            ),
-            builder: null,
-          ),
-          throwsAssertionError,
-        );
-      });
-    });
-
     testWidgets('null messageHandler', (tester) async {
       await tester.pumpWidget(
         LoaderWidget<String>(
@@ -60,14 +40,17 @@ void main() {
     });
 
     testWidgets(
-      'blocProvider returns null, builder is called once with null state',
+      'blocProvider returns a bloc with loader function returns empty, builder is called once with null content state',
       (tester) async {
-        final mockBuilder = MockBuilder<String>();
+        final mockBuilder = MockLoaderBuilder<String>();
         when(mockBuilder.call(any, any, any)).thenReturn(Container());
+
+        late LoaderBloc<String> bloc;
 
         await tester.pumpWidget(
           LoaderWidget<String>(
-            blocProvider: () => null,
+            blocProvider: () =>
+                bloc = LoaderBloc(loaderFunction: () => Stream.empty()),
             builder: mockBuilder,
           ),
         );
@@ -75,15 +58,15 @@ void main() {
         verify(
           mockBuilder.call(
             any,
-            null /* state */,
-            null /* bloc */,
+            LoaderState<String>.initial() /* state */,
+            bloc /* bloc */,
           ),
         ).called(1);
       },
     );
 
     testWidgets('Calls blocProvider once', (tester) async {
-      final blocProvider = BlocProviderMock<String>();
+      final blocProvider = MockBlocProvider<String>();
       when(blocProvider.call()).thenAnswer(
         (_) => LoaderBloc<String>(
           loaderFunction: () async* {},
