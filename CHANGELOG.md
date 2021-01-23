@@ -1,7 +1,7 @@
 ## 1.1.0-nullsafety.1 - Jan 23, 2021
 
 *   **Breaking**: changed signature of `LoaderMessageHandler` to `void Function(BuildContext, LoaderMessage, LoaderBloc)`.
-    This allows using `BuildContext` to access ancestor widget, eg. `ScaffoldMessager.of(context)`, `Navigator.of(context)`, ...
+    This allows using `BuildContext` to access ancestor widget, eg. `ScaffoldMessenger.of(context)`, `Navigator.of(context)`, ...
 
 ## 1.1.0-nullsafety.0 - Jan 18, 2021
 *   Migrate this package to null safety.

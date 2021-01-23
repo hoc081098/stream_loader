@@ -51,7 +51,7 @@ LoaderWidget<BuiltList<Comment>>(
     initialContent: <Comment>[].build(),
     logger: print,
   ),
-  messageHandler: (message, bloc) {
+  messageHandler: (context, message, bloc) {
     message.fold(
       onFetchFailure: (error, stackTrace) => context.snackBar('Fetch error'),
       onFetchSuccess: (_) {},
@@ -88,7 +88,7 @@ LoaderWidget<Comment>(
     initialContent: comment,
     logger: print,
   ),
-  messageHandler: (message, _) {
+  messageHandler: (context, message, bloc) {
     message.fold(
       onFetchFailure: (_, __) {},
       onFetchSuccess: (_) {},
