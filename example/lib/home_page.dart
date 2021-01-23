@@ -8,6 +8,8 @@ import 'data/api.dart';
 import 'data/comment.dart';
 import 'detail_page.dart';
 
+// ignore_for_file: deprecated_member_use
+
 class HomePage extends StatelessWidget {
   const HomePage({Key key}) : super(key: key);
 
@@ -112,7 +114,6 @@ class HomePage extends StatelessWidget {
 
 extension SnackBarExt on BuildContext {
   void snackBar(String message) {
-    // ignore: deprecated_member_use
     Scaffold.of(this).showSnackBar(
       SnackBar(
         content: Text(message),
