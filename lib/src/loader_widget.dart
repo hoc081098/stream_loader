@@ -29,7 +29,7 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
   final LoaderBloc<Content> Function() blocProvider;
 
   /// Function that handle [LoaderMessage]
-  final LoaderMessageHandler<Content> messageHandler;
+  final LoaderMessageHandler<Content>? messageHandler;
 
   /// Function used to build widget base on stream
   final LoaderBuilder<Content> builder;
@@ -47,18 +47,11 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
     LoaderMessageHandler<Content>? messageHandler,
   })  : assert(blocProvider != null),
         assert(builder != null),
-        messageHandler = messageHandler ?? _emptyMessageHandler,
+        messageHandler = messageHandler,
         super(key: key);
 
   @override
   _LoaderWidgetState<Content> createState() => _LoaderWidgetState<Content>();
-
-  static void _emptyMessageHandler<T extends Object>(
-    BuildContext context,
-    LoaderMessage<T> message,
-    LoaderBloc<T> bloc,
-  ) =>
-      null;
 }
 
 class _LoaderWidgetState<Content extends Object>
@@ -79,10 +72,14 @@ class _LoaderWidgetState<Content extends Object>
   void didUpdateWidget(LoaderWidget<Content> oldWidget) {
     super.didUpdateWidget(oldWidget);
 
-    if (widget.messageHandler != oldWidget.messageHandler) {
+    final handler = widget.messageHandler;
+    if (handler != oldWidget.messageHandler) {
       subscription?.cancel();
-      subscription = requireBloc.message$.listen(
-          (message) => widget.messageHandler(context, message, requireBloc));
+
+      if (handler != null) {
+        subscription = requireBloc.message$
+            .listen((message) => handler(context, message, requireBloc));
+      }
     }
   }
 
@@ -91,8 +88,12 @@ class _LoaderWidgetState<Content extends Object>
     assert(subscription == null);
 
     bloc = widget.blocProvider()..fetch();
-    subscription = requireBloc.message$.listen(
-        (message) => widget.messageHandler(context, message, requireBloc));
+
+    final handler = widget.messageHandler;
+    if (handler != null) {
+      subscription = requireBloc.message$
+          .listen((message) => handler(context, message, requireBloc));
+    }
   }
 
   void disposeBloc() {
