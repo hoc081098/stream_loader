@@ -18,6 +18,7 @@ typedef LoaderBuilder<Content extends Object> = Widget Function(
 
 /// The handler for [LoaderMessage].
 typedef LoaderMessageHandler<Content extends Object> = void Function(
+  BuildContext context,
   LoaderMessage<Content> message,
   LoaderBloc<Content> bloc,
 );
@@ -53,6 +54,7 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
   _LoaderWidgetState<Content> createState() => _LoaderWidgetState<Content>();
 
   static void _emptyMessageHandler<T extends Object>(
+    BuildContext context,
     LoaderMessage<T> message,
     LoaderBloc<T> bloc,
   ) =>
@@ -65,9 +67,12 @@ class _LoaderWidgetState<Content extends Object>
   StreamSubscription<LoaderMessage>? subscription;
 
   @override
-  void initState() {
-    super.initState();
-    initBloc();
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+
+    if (bloc == null) {
+      initBloc();
+    }
   }
 
   @override
@@ -76,8 +81,8 @@ class _LoaderWidgetState<Content extends Object>
 
     if (widget.messageHandler != oldWidget.messageHandler) {
       subscription?.cancel();
-      subscription = requireBloc.message$
-          .listen((message) => widget.messageHandler(message, requireBloc));
+      subscription = requireBloc.message$.listen(
+          (message) => widget.messageHandler(context, message, requireBloc));
     }
   }
 
@@ -86,8 +91,8 @@ class _LoaderWidgetState<Content extends Object>
     assert(subscription == null);
 
     bloc = widget.blocProvider()..fetch();
-    subscription = requireBloc.message$
-        .listen((message) => widget.messageHandler(message, requireBloc));
+    subscription = requireBloc.message$.listen(
+        (message) => widget.messageHandler(context, message, requireBloc));
   }
 
   void disposeBloc() {

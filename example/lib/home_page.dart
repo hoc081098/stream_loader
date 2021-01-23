@@ -27,7 +27,7 @@ class HomePage extends StatelessWidget {
                 refresherFunction: api.getComments,
                 initialContent: BuiltList.of([]),
               ),
-              messageHandler: (message, _) => handleMessage(message, context),
+              messageHandler: handleMessage,
               builder: (context, state, bloc) {
                 if (state.error != null) {
                   return Center(
@@ -95,7 +95,11 @@ class HomePage extends StatelessWidget {
     );
   }
 
-  void handleMessage(LoaderMessage message, BuildContext context) {
+  void handleMessage(
+    BuildContext context,
+    LoaderMessage<BuiltList<Comment>> message,
+    LoaderBloc<BuiltList<Comment>> bloc,
+  ) {
     message.fold(
       onFetchFailure: (error, stackTrace) => context.snackBar('Fetch error'),
       onFetchSuccess: (_) {},

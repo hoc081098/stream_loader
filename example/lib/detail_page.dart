@@ -32,7 +32,7 @@ class DetailPage extends StatelessWidget {
                   logger: print,
                 );
               },
-              messageHandler: (message, _) {
+              messageHandler: (context, message, _) {
                 message.fold(
                   onFetchFailure: (_, __) => null,
                   onFetchSuccess: (_) => null,
