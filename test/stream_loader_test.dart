@@ -7,7 +7,7 @@ import 'loader_widget_test.dart' as loader_widget_test;
 import 'partial_state_change_test.dart' as partial_state_change_test;
 
 void main() {
-  DisposeBag.logger = null;
+  DisposeBagConfigs.logger = null;
   loader_message_test.main();
   partial_state_change_test.main();
   loader_state_test.main();

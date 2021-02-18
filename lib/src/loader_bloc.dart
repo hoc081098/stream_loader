@@ -116,15 +116,12 @@ class LoaderBloc<Content extends Object> {
       ),
     ];
 
-    return LoaderBloc._(
-      dispose: () => DisposeBag([...subscriptions, ...controllers])
-          .dispose()
-          .let(
-            (future) =>
-                logger?.let((l) =>
-                    future.then((result) => l('$_tag disposed: $result'))) ??
-                future,
-          ),
+    late LoaderBloc<Content> bloc;
+    bloc = LoaderBloc._(
+      dispose: () => DisposeBag(
+        [...subscriptions, ...controllers],
+        '${bloc.runtimeType}#${bloc.hashCode.toUnsigned(20).toRadixString(16).padLeft(5, '0')}',
+      ).dispose(),
       state$: state$,
       fetch: () => fetchS.add(null),
       refresh: () {
@@ -134,6 +131,7 @@ class LoaderBloc<Content extends Object> {
       },
       message$: messageS,
     );
+    return bloc;
   }
 
   /// Return new [LoaderState] from old [state] and partial state [change]

@@ -1,3 +1,7 @@
+## 1.1.0-nullsafety.2 - Feb 18, 2021
+
+*   Latest dependencies.
+
 ## 1.1.0-nullsafety.1 - Jan 23, 2021
 
 *   **Breaking**: changed signature of `LoaderMessageHandler` to `void Function(BuildContext, LoaderMessage, LoaderBloc)`.
