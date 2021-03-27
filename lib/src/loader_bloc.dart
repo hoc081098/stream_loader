@@ -20,6 +20,8 @@ import 'loader_state.dart';
 import 'partial_state_change.dart';
 import 'utils.dart';
 
+// ignore_for_file: close_sinks
+
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content extends Object> {
   static const _tag = '« stream_loader »';
