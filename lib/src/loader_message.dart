@@ -1,7 +1,5 @@
 import 'package:flutter/foundation.dart';
 
-// ignore_for_file: unnecessary_null_comparison
-
 /// Class that represents a message event
 @immutable
 abstract class LoaderMessage<Content> {
@@ -30,11 +28,6 @@ abstract class LoaderMessage<Content> {
     required R Function(Object error, StackTrace stackTrace) onRefreshFailure,
     required R Function(Content data) onRefreshSuccess,
   }) {
-    assert(onFetchFailure != null);
-    assert(onFetchSuccess != null);
-    assert(onRefreshFailure != null);
-    assert(onRefreshSuccess != null);
-
     final self = this;
     if (self is _FetchFailure<Content>) {
       return onFetchFailure(self.error, self.stackTrace);

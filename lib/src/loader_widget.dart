@@ -7,8 +7,6 @@ import 'loader_bloc.dart';
 import 'loader_message.dart';
 import 'loader_state.dart';
 
-// ignore_for_file: unnecessary_null_comparison
-
 /// Signature for strategies that build widgets based on [LoaderState].
 typedef LoaderBuilder<Content extends Object> = Widget Function(
   BuildContext context,
@@ -45,9 +43,7 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
     required this.blocProvider,
     required this.builder,
     LoaderMessageHandler<Content>? messageHandler,
-  })  : assert(blocProvider != null),
-        assert(builder != null),
-        messageHandler = messageHandler,
+  })  : messageHandler = messageHandler,
         super(key: key);
 
   @override
