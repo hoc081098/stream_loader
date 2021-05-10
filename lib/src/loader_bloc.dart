@@ -80,9 +80,9 @@ class LoaderBloc<Content extends Object> {
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.fetchSuccess(content))
           .startWith(const LoaderPartialStateChange.fetchLoading())
-          .doOnError((e, s) => messageS
-              .add(LoaderMessage.fetchFailure(e, s ?? StackTrace.current)))
-          .onErrorReturnWith((e) => LoaderPartialStateChange.fetchFailure(e)),
+          .doOnError((e, s) => messageS.add(LoaderMessage.fetchFailure(e, s)))
+          .onErrorReturnWith(
+              (e, _) => LoaderPartialStateChange.fetchFailure(e)),
     );
     final refreshChanges = refreshS.stream.exhaustMap(
       (completer) => Rx.defer(refresherFunction!)
@@ -90,8 +90,7 @@ class LoaderBloc<Content extends Object> {
               (content) => messageS.add(LoaderMessage.refreshSuccess(content)))
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.refreshSuccess(content))
-          .doOnError((e, s) => messageS
-              .add(LoaderMessage.refreshFailure(e, s ?? StackTrace.current)))
+          .doOnError((e, s) => messageS.add(LoaderMessage.refreshFailure(e, s)))
           .onErrorResumeNext(Stream.empty())
           .doOnDone(() => completer.complete()),
     );
@@ -136,11 +135,10 @@ class LoaderBloc<Content extends Object> {
   /// Return new [LoaderState] from old [state] and partial state [change]
   @visibleForTesting
   static LoaderState<Content> reduce<Content extends Object>(
-    LoaderState<Content>? acc,
+    LoaderState<Content> state,
     LoaderPartialStateChange<Content> change,
     int _,
   ) {
-    final state = acc!;
     return change.fold(
       onRefreshSuccess: (content) => state.rebuild((b) => b
         ..content = content

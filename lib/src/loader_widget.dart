@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:rxdart_ext/rxdart_ext.dart' show ValueStreamExtensions;
 
 import 'loader_bloc.dart';
 import 'loader_message.dart';
@@ -116,7 +115,7 @@ class _LoaderWidgetState<Content extends Object>
 
     return StreamBuilder<LoaderState<Content>>(
       stream: bloc.state$,
-      initialData: bloc.state$.requireValue,
+      initialData: bloc.state$.value,
       builder: (context, snapshot) {
         return widget.builder(
           context,
