@@ -4,16 +4,7 @@ import 'package:disposebag/disposebag.dart' show DisposeBag;
 import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart'
     show DistinctValueConnectableExtensions, DistinctValueStream;
 import 'package:meta/meta.dart' show visibleForTesting;
-import 'package:rxdart_ext/rxdart_ext.dart'
-    show
-        PublishSubject,
-        Rx,
-        SwitchMapExtension,
-        ExhaustMapExtension,
-        DoExtensions,
-        OnErrorExtensions,
-        ScanExtension,
-        StartWithExtension;
+import 'package:rxdart_ext/rxdart_ext.dart';
 
 import 'loader_message.dart';
 import 'loader_state.dart';
@@ -21,6 +12,37 @@ import 'partial_state_change.dart';
 import 'utils.dart';
 
 // ignore_for_file: close_sinks
+
+/// TODO
+enum FlatMapPolicy {
+  /// flatMap
+  merge,
+
+  /// asyncExpand
+  concat,
+
+  /// switchMap
+  latest,
+
+  /// exhaustMap
+  first,
+}
+
+extension _FlatMapWithPolicy<T> on Stream<T> {
+  Stream<R> flatMapWithPolicy<R>(
+      FlatMapPolicy policy, Stream<R> Function(T) transform) {
+    switch (policy) {
+      case FlatMapPolicy.merge:
+        return flatMap(transform);
+      case FlatMapPolicy.concat:
+        return asyncExpand(transform);
+      case FlatMapPolicy.latest:
+        return switchMap(transform);
+      case FlatMapPolicy.first:
+        return exhaustMap(transform);
+    }
+  }
+}
 
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content extends Object> {
@@ -63,6 +85,8 @@ class LoaderBloc<Content extends Object> {
     Stream<Content> Function()? refresherFunction,
     Content? initialContent,
     void Function(String)? logger,
+    FlatMapPolicy fetchFlatMapPolicy = FlatMapPolicy.latest, // switchMap
+    FlatMapPolicy refreshFlatMapPolicy = FlatMapPolicy.first, // exhaustMap
   }) {
     refresherFunction ??= () => Stream<Content>.empty();
 
@@ -73,7 +97,8 @@ class LoaderBloc<Content extends Object> {
     final controllers = <StreamController<dynamic>>[fetchS, refreshS, messageS];
 
     /// Input actions to state
-    final fetchChanges = fetchS.stream.switchMap(
+    final fetchChanges = fetchS.stream.flatMapWithPolicy(
+      fetchFlatMapPolicy,
       (_) => Rx.defer(loaderFunction)
           .doOnData(
               (content) => messageS.add(LoaderMessage.fetchSuccess(content)))
@@ -84,7 +109,8 @@ class LoaderBloc<Content extends Object> {
           .onErrorReturnWith(
               (e, _) => LoaderPartialStateChange.fetchFailure(e)),
     );
-    final refreshChanges = refreshS.stream.exhaustMap(
+    final refreshChanges = refreshS.stream.flatMapWithPolicy(
+      refreshFlatMapPolicy,
       (completer) => Rx.defer(refresherFunction!)
           .doOnData(
               (content) => messageS.add(LoaderMessage.refreshSuccess(content)))
