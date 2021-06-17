@@ -29,7 +29,7 @@ dependencies:
     <img src="https://github.com/hoc081098/hoc081098.github.io/raw/master/stream_loader/untitled.gif" height="480"/>
 </p>
 
-#### Model and api
+#### 1. Model and api
 ```dart
 abstract class Comment implements Built<Comment, CommentBuilder> { ... }
 
@@ -40,7 +40,7 @@ class Api {
 final api = Api();
 ```
 
-#### Create LoaderWidget load comments from api
+#### 2. Create LoaderWidget load comments from api
 ```dart
 import 'package:stream_loader/stream_loader.dart';
 
@@ -74,7 +74,7 @@ LoaderWidget<BuiltList<Comment>>(
 );
 ```
 
-#### Create LoaderWidget load comment detail from api
+#### 3. Create LoaderWidget load comment detail from api
 ```dart
 import 'package:stream_loader/stream_loader.dart';
 
@@ -151,6 +151,20 @@ class _CommentsState extends State<Comments> {
     );
   }
 }
+```
+
+### Change _flatMap behavior_ of `loaderFunction` and `refresherFunction`.
+
+-   Default behavior of `loaderFunction` is `FlatMapPolicy.latest` (uses `switchMap`).
+-   Default behavior of `refreshFlatMapPolicy` is `FlatMapPolicy.first`, (uses `exhaustMap`).
+-   To change them, passing your value to `LoaderBloc` constructor
+
+```dart
+LoaderBloc(
+  ...,
+  loaderFlatMapPolicy: FlatMapPolicy.concat, // asyncExpand
+  refreshFlatMapPolicy: FlatMapPolicy.latest, // switchMap
+);
 ```
 
 ## License

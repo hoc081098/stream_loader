@@ -86,7 +86,7 @@ class LoaderBloc<Content extends Object> {
     Stream<Content> Function()? refresherFunction,
     Content? initialContent,
     void Function(String)? logger,
-    FlatMapPolicy fetchFlatMapPolicy =
+    FlatMapPolicy loaderFlatMapPolicy =
         FlatMapPolicy.latest, // default is `switchMap`
     FlatMapPolicy refreshFlatMapPolicy =
         FlatMapPolicy.first, // default is `exhaustMap`
@@ -101,7 +101,7 @@ class LoaderBloc<Content extends Object> {
 
     /// Input actions to state
     final fetchChanges = fetchS.stream.flatMapWithPolicy(
-      fetchFlatMapPolicy,
+      loaderFlatMapPolicy,
       (_) => Rx.defer(loaderFunction)
           .doOnData(
               (content) => messageS.add(LoaderMessage.fetchSuccess(content)))

@@ -1,3 +1,15 @@
+## 1.2.1 - Jun 17, 2021
+
+*   Change `dispose` from a field to a function.
+*   Add `FlatMapPolicy` allow changing _flatMap behavior_ of `loaderFunction` and `refresherFunction`.
+    ```dart
+    LoaderBloc(
+      ...,
+      loaderFlatMapPolicy: FlatMapPolicy.concat, // asyncExpand
+      refreshFlatMapPolicy: FlatMapPolicy.latest, // switchMap
+    );
+    ```
+
 ## 1.2.0 - May 10, 2021
 
 *   Update `rxdart` to `0.27.0`.
