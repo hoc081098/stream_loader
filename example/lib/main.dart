@@ -8,9 +8,9 @@ import 'home_page.dart';
 void main() {
   final api = Api(http.Client());
   runApp(
-    Provider<Api>(
+    Provider<Api>.value(
+      api,
       child: MyApp(),
-      value: api,
     ),
   );
 }

@@ -11,7 +11,7 @@ import 'detail_page.dart';
 // ignore_for_file: deprecated_member_use
 
 class HomePage extends StatelessWidget {
-  const HomePage({Key key}) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,7 +55,7 @@ class HomePage extends StatelessWidget {
                     child: CircularProgressIndicator(),
                   );
                 }
-                final items = state.content;
+                final items = state.content!;
 
                 return RefreshIndicator(
                   child: ListView.separated(

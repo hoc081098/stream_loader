@@ -4,21 +4,21 @@ version: 1.0.0+1
 publish_to: none
 
 environment:
-  sdk: '>=2.7.0 <3.0.0'
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  cupertino_icons: ^1.0.0
-  http: ^0.12.2
-  built_value: ^7.1.0
-  flutter_provider: ^1.1.1
+  cupertino_icons: ^1.0.3
+  http: ^0.13.3
+  built_value: ^8.0.6
+  flutter_provider: ^2.0.0
+  pedantic: ^1.11.0
   stream_loader:
 
 dev_dependencies:
-  pedantic: ^1.9.0
-  built_value_generator: ^7.1.0
-  build_runner: ^1.10.2
+  built_value_generator: ^8.0.6
+  build_runner: ^2.0.4
   flutter_test:
     sdk: flutter
 

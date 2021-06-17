@@ -5,7 +5,7 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:http/http.dart' as http;
 
 void main() {
-  Api api;
+  late Api api;
 
   setUp(() {
     api = Api(http.Client());

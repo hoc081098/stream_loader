@@ -9,7 +9,7 @@ import 'home_page.dart' show SnackBarExt;
 class DetailPage extends StatelessWidget {
   final Comment comment;
 
-  const DetailPage({Key key, @required this.comment}) : super(key: key);
+  const DetailPage({Key? key, required this.comment}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +41,7 @@ class DetailPage extends StatelessWidget {
                 );
               },
               builder: (context, state, bloc) {
-                final comment = state.content;
+                final comment = state.content!;
 
                 return RefreshIndicator(
                   onRefresh: bloc.refresh,

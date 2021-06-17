@@ -15,9 +15,9 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
   final String wireName = 'Comment';
 
   @override
-  Iterable<Object> serialize(Serializers serializers, Comment object,
+  Iterable<Object?> serialize(Serializers serializers, Comment object,
       {FullType specifiedType = FullType.unspecified}) {
-    final result = <Object>[
+    final result = <Object?>[
       'postId',
       serializers.serialize(object.postId, specifiedType: const FullType(int)),
       'id',
@@ -35,7 +35,7 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
   }
 
   @override
-  Comment deserialize(Serializers serializers, Iterable<Object> serialized,
+  Comment deserialize(Serializers serializers, Iterable<Object?> serialized,
       {FullType specifiedType = FullType.unspecified}) {
     final result = new CommentBuilder();
 
@@ -43,7 +43,7 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
     while (iterator.moveNext()) {
       final key = iterator.current as String;
       iterator.moveNext();
-      final dynamic value = iterator.current;
+      final Object? value = iterator.current;
       switch (key) {
         case 'postId':
           result.postId = serializers.deserialize(value,
@@ -84,26 +84,21 @@ class _$Comment extends Comment {
   @override
   final String body;
 
-  factory _$Comment([void Function(CommentBuilder) updates]) =>
+  factory _$Comment([void Function(CommentBuilder)? updates]) =>
       (new CommentBuilder()..update(updates)).build();
 
-  _$Comment._({this.postId, this.id, this.name, this.email, this.body})
+  _$Comment._(
+      {required this.postId,
+      required this.id,
+      required this.name,
+      required this.email,
+      required this.body})
       : super._() {
-    if (postId == null) {
-      throw new BuiltValueNullFieldError('Comment', 'postId');
-    }
-    if (id == null) {
-      throw new BuiltValueNullFieldError('Comment', 'id');
-    }
-    if (name == null) {
-      throw new BuiltValueNullFieldError('Comment', 'name');
-    }
-    if (email == null) {
-      throw new BuiltValueNullFieldError('Comment', 'email');
-    }
-    if (body == null) {
-      throw new BuiltValueNullFieldError('Comment', 'body');
-    }
+    BuiltValueNullFieldError.checkNotNull(postId, 'Comment', 'postId');
+    BuiltValueNullFieldError.checkNotNull(id, 'Comment', 'id');
+    BuiltValueNullFieldError.checkNotNull(name, 'Comment', 'name');
+    BuiltValueNullFieldError.checkNotNull(email, 'Comment', 'email');
+    BuiltValueNullFieldError.checkNotNull(body, 'Comment', 'body');
   }
 
   @override
@@ -145,37 +140,38 @@ class _$Comment extends Comment {
 }
 
 class CommentBuilder implements Builder<Comment, CommentBuilder> {
-  _$Comment _$v;
+  _$Comment? _$v;
 
-  int _postId;
-  int get postId => _$this._postId;
-  set postId(int postId) => _$this._postId = postId;
+  int? _postId;
+  int? get postId => _$this._postId;
+  set postId(int? postId) => _$this._postId = postId;
 
-  int _id;
-  int get id => _$this._id;
-  set id(int id) => _$this._id = id;
+  int? _id;
+  int? get id => _$this._id;
+  set id(int? id) => _$this._id = id;
 
-  String _name;
-  String get name => _$this._name;
-  set name(String name) => _$this._name = name;
+  String? _name;
+  String? get name => _$this._name;
+  set name(String? name) => _$this._name = name;
 
-  String _email;
-  String get email => _$this._email;
-  set email(String email) => _$this._email = email;
+  String? _email;
+  String? get email => _$this._email;
+  set email(String? email) => _$this._email = email;
 
-  String _body;
-  String get body => _$this._body;
-  set body(String body) => _$this._body = body;
+  String? _body;
+  String? get body => _$this._body;
+  set body(String? body) => _$this._body = body;
 
   CommentBuilder();
 
   CommentBuilder get _$this {
-    if (_$v != null) {
-      _postId = _$v.postId;
-      _id = _$v.id;
-      _name = _$v.name;
-      _email = _$v.email;
-      _body = _$v.body;
+    final $v = _$v;
+    if ($v != null) {
+      _postId = $v.postId;
+      _id = $v.id;
+      _name = $v.name;
+      _email = $v.email;
+      _body = $v.body;
       _$v = null;
     }
     return this;
@@ -183,14 +179,12 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
 
   @override
   void replace(Comment other) {
-    if (other == null) {
-      throw new ArgumentError.notNull('other');
-    }
+    ArgumentError.checkNotNull(other, 'other');
     _$v = other as _$Comment;
   }
 
   @override
-  void update(void Function(CommentBuilder) updates) {
+  void update(void Function(CommentBuilder)? updates) {
     if (updates != null) updates(this);
   }
 
@@ -198,7 +192,15 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   _$Comment build() {
     final _$result = _$v ??
         new _$Comment._(
-            postId: postId, id: id, name: name, email: email, body: body);
+            postId: BuiltValueNullFieldError.checkNotNull(
+                postId, 'Comment', 'postId'),
+            id: BuiltValueNullFieldError.checkNotNull(id, 'Comment', 'id'),
+            name:
+                BuiltValueNullFieldError.checkNotNull(name, 'Comment', 'name'),
+            email: BuiltValueNullFieldError.checkNotNull(
+                email, 'Comment', 'email'),
+            body:
+                BuiltValueNullFieldError.checkNotNull(body, 'Comment', 'body'));
     replace(_$result);
     return _$result;
   }

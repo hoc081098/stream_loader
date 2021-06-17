@@ -23,7 +23,8 @@ abstract class Comment implements Built<Comment, CommentBuilder> {
   static Serializer<Comment> get serializer => _$commentSerializer;
 
   factory Comment.fromJson(Map<String, dynamic> json) =>
-      serializers.deserializeWith<Comment>(serializer, json);
+      serializers.deserializeWith<Comment>(serializer, json)!;
 
-  Map<String, dynamic> toJson() => serializers.serializeWith(serializer, this);
+  Map<String, dynamic> toJson() =>
+      serializers.serializeWith(serializer, this)! as Map<String, dynamic>;
 }
