@@ -170,4 +170,4 @@ LoaderBloc(
 ## License
     MIT License
     
-    Copyright (c) 2020 Petrus Nguyễn Thái Học
+    Copyright (c) 2020-2021 Petrus Nguyễn Thái Học
