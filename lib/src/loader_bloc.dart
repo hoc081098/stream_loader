@@ -54,22 +54,23 @@ class LoaderBloc<Content extends Object> {
   /// Message stream
   final Stream<LoaderMessage<Content>> message$;
 
-  /// Call this function fetch data
+  /// Call this function to fetch data
   final void Function() fetch;
 
   /// Call this function to refresh data
   final Future<void> Function() refresh;
 
   /// Clean up resources
-  final Future<void> Function() dispose;
+  Future<void> dispose() => _dispose();
+  final Future<void> Function() _dispose;
 
   LoaderBloc._({
-    required this.dispose,
+    required Future<void> Function() dispose,
     required this.state$,
     required this.fetch,
     required this.refresh,
     required this.message$,
-  });
+  }) : _dispose = dispose;
 
   /// Construct a [LoaderBloc]
   /// The [loaderFunction] is a function return a stream of [Content]s (must be not null).
