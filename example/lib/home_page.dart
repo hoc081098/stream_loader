@@ -58,6 +58,7 @@ class HomePage extends StatelessWidget {
                 final items = state.content!;
 
                 return RefreshIndicator(
+                  onRefresh: bloc.refresh,
                   child: ListView.separated(
                     physics: AlwaysScrollableScrollPhysics(),
                     itemCount: items.length,
@@ -66,11 +67,11 @@ class HomePage extends StatelessWidget {
 
                       return ListTile(
                         leading: CircleAvatar(
-                          child: Text(comment.name[0]),
                           backgroundColor:
                               Colors.primaries[index % Colors.primaries.length],
                           maxRadius: 32,
                           minRadius: 32,
+                          child: Text(comment.name[0]),
                         ),
                         title: Text(comment.name),
                         subtitle: Text(comment.email),
@@ -87,7 +88,6 @@ class HomePage extends StatelessWidget {
                     },
                     separatorBuilder: (context, index) => const Divider(),
                   ),
-                  onRefresh: bloc.refresh,
                 );
               },
             );
