@@ -13,18 +13,18 @@ import 'utils.dart';
 
 // ignore_for_file: close_sinks
 
-/// TODO
+/// Defines which flatMap behavior should be applied whenever a new values is emitted.
 enum FlatMapPolicy {
-  /// flatMap
+  /// uses [FlatMapExtension.flatMap].
   merge,
 
-  /// asyncExpand
+  /// uses [Stream.asyncExpand].
   concat,
 
-  /// switchMap
+  /// uses [SwitchMapExtension.switchMap].
   latest,
 
-  /// exhaustMap
+  /// uses [ExhaustMapExtension.exhaustMap].
   first,
 }
 
@@ -85,8 +85,8 @@ class LoaderBloc<Content extends Object> {
     Stream<Content> Function()? refresherFunction,
     Content? initialContent,
     void Function(String)? logger,
-    FlatMapPolicy fetchFlatMapPolicy = FlatMapPolicy.latest, // switchMap
-    FlatMapPolicy refreshFlatMapPolicy = FlatMapPolicy.first, // exhaustMap
+    FlatMapPolicy fetchFlatMapPolicy = FlatMapPolicy.latest, // default is `switchMap`
+    FlatMapPolicy refreshFlatMapPolicy = FlatMapPolicy.first, // default is `exhaustMap`
   }) {
     refresherFunction ??= () => Stream<Content>.empty();
 
