@@ -86,8 +86,10 @@ class LoaderBloc<Content extends Object> {
     Stream<Content> Function()? refresherFunction,
     Content? initialContent,
     void Function(String)? logger,
-    FlatMapPolicy fetchFlatMapPolicy = FlatMapPolicy.latest, // default is `switchMap`
-    FlatMapPolicy refreshFlatMapPolicy = FlatMapPolicy.first, // default is `exhaustMap`
+    FlatMapPolicy fetchFlatMapPolicy =
+        FlatMapPolicy.latest, // default is `switchMap`
+    FlatMapPolicy refreshFlatMapPolicy =
+        FlatMapPolicy.first, // default is `exhaustMap`
   }) {
     refresherFunction ??= () => Stream<Content>.empty();
 
