@@ -1,3 +1,8 @@
+## 1.3.0 - Jun 21, 2021
+
+*   Rename `FlatMapPolicy` to `FlattenStrategy`.
+*   Fix `LoaderBloc.refresh()` does not complete.
+
 ## 1.2.1 - Jun 17, 2021
 
 *   Change `dispose` from a field to a function.

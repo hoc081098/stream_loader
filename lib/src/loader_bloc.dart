@@ -46,7 +46,7 @@ extension _FlatMapWithStrategy<T> on Stream<T> {
 
 /// BLoC that handles loading and refreshing data
 class LoaderBloc<Content extends Object> {
-  static const _tag = '« stream_loader »';
+  static const _tag = '💧stream_loader💧';
 
   /// View state stream
   final DistinctValueStream<LoaderState<Content>> state$;
