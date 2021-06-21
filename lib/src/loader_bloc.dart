@@ -14,7 +14,7 @@ import 'utils.dart';
 // ignore_for_file: close_sinks
 
 /// Defines which flatMap behavior should be applied whenever a new values is emitted.
-enum FlatMapPolicy {
+enum FlattenStrategy {
   /// uses [FlatMapExtension.flatMap].
   merge,
 
@@ -28,17 +28,17 @@ enum FlatMapPolicy {
   first,
 }
 
-extension _FlatMapWithPolicy<T> on Stream<T> {
-  Stream<R> flatMapWithPolicy<R>(
-      FlatMapPolicy policy, Stream<R> Function(T) transform) {
-    switch (policy) {
-      case FlatMapPolicy.merge:
+extension _FlatMapWithStrategy<T> on Stream<T> {
+  Stream<R> flatMapWithStrategy<R>(
+      FlattenStrategy strategy, Stream<R> Function(T) transform) {
+    switch (strategy) {
+      case FlattenStrategy.merge:
         return flatMap(transform);
-      case FlatMapPolicy.concat:
+      case FlattenStrategy.concat:
         return asyncExpand(transform);
-      case FlatMapPolicy.latest:
+      case FlattenStrategy.latest:
         return switchMap(transform);
-      case FlatMapPolicy.first:
+      case FlattenStrategy.first:
         return exhaustMap(transform);
     }
   }
@@ -86,10 +86,10 @@ class LoaderBloc<Content extends Object> {
     Stream<Content> Function()? refresherFunction,
     Content? initialContent,
     void Function(String)? logger,
-    FlatMapPolicy loaderFlatMapPolicy =
-        FlatMapPolicy.latest, // default is `switchMap`
-    FlatMapPolicy refreshFlatMapPolicy =
-        FlatMapPolicy.first, // default is `exhaustMap`
+    FlattenStrategy loaderFlattenStrategy =
+        FlattenStrategy.latest, // default is `switchMap`
+    FlattenStrategy refreshFlattenStrategy =
+        FlattenStrategy.first, // default is `exhaustMap`
   }) {
     refresherFunction ??= () => Stream<Content>.empty();
 
@@ -100,8 +100,8 @@ class LoaderBloc<Content extends Object> {
     final controllers = <StreamController<dynamic>>[fetchS, refreshS, messageS];
 
     /// Input actions to state
-    final fetchChanges = fetchS.stream.flatMapWithPolicy(
-      loaderFlatMapPolicy,
+    final fetchChanges = fetchS.stream.flatMapWithStrategy(
+      loaderFlattenStrategy,
       (_) => Rx.defer(loaderFunction)
           .doOnData(
               (content) => messageS.add(LoaderMessage.fetchSuccess(content)))
@@ -112,8 +112,8 @@ class LoaderBloc<Content extends Object> {
           .onErrorReturnWith(
               (e, _) => LoaderPartialStateChange.fetchFailure(e)),
     );
-    final refreshChanges = refreshS.stream.flatMapWithPolicy(
-      refreshFlatMapPolicy,
+    final refreshChanges = refreshS.stream.flatMapWithStrategy(
+      refreshFlattenStrategy,
       (completer) => Rx.defer(refresherFunction!)
           .doOnData(
               (content) => messageS.add(LoaderMessage.refreshSuccess(content)))
@@ -121,7 +121,7 @@ class LoaderBloc<Content extends Object> {
               (content) => LoaderPartialStateChange.refreshSuccess(content))
           .doOnError((e, s) => messageS.add(LoaderMessage.refreshFailure(e, s)))
           .onErrorResumeNext(Stream.empty())
-          .doOnDone(() => completer.complete()),
+          .doOnCancel(() => completer.complete()),
     );
 
     final initialState = LoaderState.initial(content: initialContent);

@@ -153,17 +153,17 @@ class _CommentsState extends State<Comments> {
 }
 ```
 
-### Change _flatMap behavior_ of `loaderFunction` and `refresherFunction`.
+### Change _flatten behavior_ of `loaderFunction` and `refresherFunction`.
 
--   Default behavior of `loaderFunction` is `FlatMapPolicy.latest` (uses `switchMap`).
--   Default behavior of `refreshFlatMapPolicy` is `FlatMapPolicy.first`, (uses `exhaustMap`).
+-   Default behavior of `loaderFunction` is `FlattenStrategy.latest` (uses `switchMap`).
+-   Default behavior of `refreshFlatMapPolicy` is `FlattenStrategy.first`, (uses `exhaustMap`).
 -   To change them, passing your value to `LoaderBloc` constructor
 
 ```dart
 LoaderBloc(
   ...,
-  loaderFlatMapPolicy: FlatMapPolicy.concat, // asyncExpand
-  refreshFlatMapPolicy: FlatMapPolicy.latest, // switchMap
+  loaderFlattenStrategy: FlattenStrategy.concat, // asyncExpand
+  refreshFlattenStrategy: FlattenStrategy.latest, // switchMap
 );
 ```
 
