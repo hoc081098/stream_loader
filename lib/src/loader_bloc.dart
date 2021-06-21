@@ -13,7 +13,7 @@ import 'utils.dart';
 
 // ignore_for_file: close_sinks
 
-/// Defines which flatMap behavior should be applied whenever a new values is emitted.
+/// Describes how a stream of inner streams should be flattened into a stream of values.
 enum FlattenStrategy {
   /// uses [FlatMapExtension.flatMap].
   merge,
