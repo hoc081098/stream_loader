@@ -17,10 +17,10 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Demo stream_loader'),
+        title: const Text('Demo stream_loader'),
       ),
       body: Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Consumer<Api>(
           builder: (context, api) {
             return LoaderWidget<BuiltList<Comment>>(
@@ -44,14 +44,14 @@ class HomePage extends StatelessWidget {
                         const SizedBox(height: 8),
                         RaisedButton(
                           onPressed: bloc.fetch,
-                          child: Text('Retry'),
+                          child: const Text('Retry'),
                         )
                       ],
                     ),
                   );
                 }
                 if (state.isLoading) {
-                  return Center(
+                  return const Center(
                     child: CircularProgressIndicator(),
                   );
                 }
@@ -60,7 +60,7 @@ class HomePage extends StatelessWidget {
                 return RefreshIndicator(
                   onRefresh: bloc.refresh,
                   child: ListView.separated(
-                    physics: AlwaysScrollableScrollPhysics(),
+                    physics: const AlwaysScrollableScrollPhysics(),
                     itemCount: items.length,
                     itemBuilder: (context, index) {
                       final comment = items[index];

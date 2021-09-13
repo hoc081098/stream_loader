@@ -41,9 +41,8 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
     Key? key,
     required this.blocProvider,
     required this.builder,
-    LoaderMessageHandler<Content>? messageHandler,
-  })  : messageHandler = messageHandler,
-        super(key: key);
+    this.messageHandler,
+  }) : super(key: key);
 
   @override
   _LoaderWidgetState<Content> createState() => _LoaderWidgetState<Content>();

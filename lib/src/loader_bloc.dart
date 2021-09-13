@@ -1,8 +1,6 @@
 import 'dart:async';
 
 import 'package:disposebag/disposebag.dart' show DisposeBag;
-import 'package:distinct_value_connectable_stream/distinct_value_connectable_stream.dart'
-    show DistinctValueConnectableExtensions, DistinctValueStream;
 import 'package:meta/meta.dart' show visibleForTesting;
 import 'package:rxdart_ext/rxdart_ext.dart';
 
@@ -49,7 +47,7 @@ class LoaderBloc<Content extends Object> {
   static const _tag = '💧stream_loader💧';
 
   /// View state stream
-  final DistinctValueStream<LoaderState<Content>> state$;
+  final StateStream<LoaderState<Content>> state$;
 
   /// Message stream
   final Stream<LoaderMessage<Content>> message$;
@@ -120,7 +118,7 @@ class LoaderBloc<Content extends Object> {
           .map<LoaderPartialStateChange<Content>>(
               (content) => LoaderPartialStateChange.refreshSuccess(content))
           .doOnError((e, s) => messageS.add(LoaderMessage.refreshFailure(e, s)))
-          .onErrorResumeNext(Stream.empty())
+          .onErrorResumeNext(const Stream.empty())
           .doOnCancel(() => completer.complete()),
     );
 
@@ -131,7 +129,7 @@ class LoaderBloc<Content extends Object> {
                 (l) => stream.doOnData((data) => l('$_tag change: $data'))) ??
             stream)
         .scan(reduce, initialState)
-        .publishValueDistinct(initialState, sync: true);
+        .publishState(initialState);
 
     final subscriptions = [
       state$.connect(),

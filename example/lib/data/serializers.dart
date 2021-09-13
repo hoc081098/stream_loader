@@ -12,8 +12,7 @@ const commentsBuiltList = FullType(
 );
 
 @SerializersFor([Comment])
-final Serializers _serializers = _$_serializers;
-final Serializers serializers = (_serializers.toBuilder()
+final Serializers serializers = (_$serializers.toBuilder()
       ..addBuilderFactory(
         commentsBuiltList,
         () => ListBuilder<Comment>(),
