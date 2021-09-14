@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter_test/flutter_test.dart';
 import 'package:stream_loader/src/loader_bloc.dart';
 import 'package:stream_loader/src/loader_message.dart';
@@ -312,7 +314,7 @@ void main() {
                 .fold<int>(0, (a, e) => a + e);
 
         final loaderBloc = LoaderBloc<String>(
-          loaderFunction: () => Stream.empty(),
+          loaderFunction: () => const Stream.empty(),
           refresherFunction: () async* {
             for (var i = 0; i < repeatCount; i++) {
               yield '$initialContent#$i';

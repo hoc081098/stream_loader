@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:built_collection/built_collection.dart';
+import 'package:flutter/foundation.dart';
 import 'package:http/http.dart' as http;
 
 import 'comment.dart';
@@ -34,5 +35,5 @@ class Api {
 
   void dispose() => _client.close();
 
-  void _logRequest(String url) => print('--> GET $url');
+  void _logRequest(String url) => debugPrint('--> GET $url');
 }

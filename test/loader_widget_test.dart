@@ -29,7 +29,7 @@ void main() {
       await tester.pumpWidget(
         LoaderWidget<String>(
           blocProvider: () => LoaderBloc(
-            loaderFunction: () => Stream.empty(),
+            loaderFunction: () => const Stream.empty(),
           ),
           builder: (context, state, bloc) => Container(),
           messageHandler: null,
@@ -50,7 +50,7 @@ void main() {
         await tester.pumpWidget(
           LoaderWidget<String>(
             blocProvider: () =>
-                bloc = LoaderBloc(loaderFunction: () => Stream.empty()),
+                bloc = LoaderBloc(loaderFunction: () => const Stream.empty()),
             builder: mockBuilder,
           ),
         );

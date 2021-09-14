@@ -14,7 +14,7 @@ abstract class LoaderState<Content extends Object> {
   /// Error when fetching is failed
   Object? get error;
 
-  LoaderState._();
+  const LoaderState._();
 
   /// Construct a [LoaderState] and apply [updates] immediately
   factory LoaderState([void Function(LoaderStateBuilder<Content>) updates]) =

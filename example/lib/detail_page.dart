@@ -15,13 +15,13 @@ class DetailPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Comment detail'),
+        title: const Text('Comment detail'),
       ),
       body: Container(
-        constraints: BoxConstraints.expand(),
+        constraints: const BoxConstraints.expand(),
         child: Consumer<Api>(
           builder: (context, api) {
-            final loadDetail = () => api.getCommentBy(id: comment.id);
+            Stream<Comment> loadDetail() => api.getCommentBy(id: comment.id);
 
             return LoaderWidget<Comment>(
               blocProvider: () {
@@ -53,32 +53,32 @@ class DetailPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.center,
                         children: <Widget>[
                           ListTile(
-                            leading: Icon(Icons.label),
-                            title: Text('Post id'),
+                            leading: const Icon(Icons.label),
+                            title: const Text('Post id'),
                             subtitle: Text(comment.postId.toString()),
                           ),
                           const Divider(),
                           ListTile(
-                            leading: Icon(Icons.add),
-                            title: Text('Id'),
+                            leading: const Icon(Icons.add),
+                            title: const Text('Id'),
                             subtitle: Text(comment.id.toString()),
                           ),
                           const Divider(),
                           ListTile(
-                            leading: Icon(Icons.person),
-                            title: Text('Name'),
+                            leading: const Icon(Icons.person),
+                            title: const Text('Name'),
                             subtitle: Text(comment.name),
                           ),
                           const Divider(),
                           ListTile(
-                            leading: Icon(Icons.email),
-                            title: Text('Email'),
+                            leading: const Icon(Icons.email),
+                            title: const Text('Email'),
                             subtitle: Text(comment.email),
                           ),
                           const Divider(),
                           ExpansionTile(
-                            leading: Icon(Icons.message),
-                            title: Text('Body'),
+                            leading: const Icon(Icons.message),
+                            title: const Text('Body'),
                             children: <Widget>[
                               Text(comment.body),
                             ],

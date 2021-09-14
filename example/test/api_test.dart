@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:built_collection/built_collection.dart';
 import 'package:example/data/api.dart';
 import 'package:example/data/comment.dart';
