@@ -150,7 +150,7 @@ class LoaderBloc<Content extends Object> {
       state$: state$,
       fetch: () => fetchS.add(null),
       refresh: () {
-        final completer = Completer<void>();
+        final completer = Completer<void>.sync();
         refreshS.add(completer);
         return completer.future;
       },
