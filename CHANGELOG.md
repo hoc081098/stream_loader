@@ -1,3 +1,12 @@
+## 1.4.0 - Sep 15, 2021
+
+*   Remove `distinct_value_connectable_stream` dependency.
+*   Update dependencies
+    * `rxdart_ext` to `0.1.2`
+    * `rxdart` to `0.27.2`
+    * `meta` to `1.7.0`
+*   Migrated from `pedantic` to `flutter_lints`.
+
 ## 1.3.0 - Jun 21, 2021
 
 *   Rename `FlatMapPolicy` to `FlattenStrategy`.
