@@ -29,7 +29,7 @@ class DetailPage extends StatelessWidget {
                   loaderFunction: loadDetail,
                   refresherFunction: loadDetail,
                   initialContent: comment,
-                  logger: print,
+                  logger: debugPrint,
                 );
               },
               messageHandler: (context, message, _) {
