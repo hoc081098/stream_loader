@@ -1,6 +1,7 @@
 # stream_loader ![alt text](https://avatars3.githubusercontent.com/u/6407041?s=32&v=4)
 
-A flutter plugin for loading content asynchronously with Dart stream. `RxDart` loader bloc.
+A Flutter plugin for loading content asynchronously with Dart stream and RxDart.
+`RxDart` loader bloc. Reactive loader bloc.
 
 ## Author: [Petrus Nguyễn Thái Học](https://github.com/hoc081098)
 
