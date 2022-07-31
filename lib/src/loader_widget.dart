@@ -45,7 +45,7 @@ class LoaderWidget<Content extends Object> extends StatefulWidget {
   }) : super(key: key);
 
   @override
-  _LoaderWidgetState<Content> createState() => _LoaderWidgetState<Content>();
+  State<LoaderWidget<Content>> createState() => _LoaderWidgetState<Content>();
 }
 
 class _LoaderWidgetState<Content extends Object>

@@ -68,11 +68,11 @@ void main() {
       const partialStateChange = LoaderPartialStateChange.fetchSuccess(content);
       final value = partialStateChange.fold(
         onFetchFailure: (_) => null,
-        onFetchSuccess: (c) => c + '#Fold',
+        onFetchSuccess: (c) => '$c#Fold',
         onRefreshSuccess: (_) => null,
         onFetchLoading: () => null,
       );
-      expect(value, content + '#Fold');
+      expect(value, '$content#Fold');
 
       expect(
         partialStateChange.fold(
@@ -115,11 +115,11 @@ void main() {
           LoaderPartialStateChange.refreshSuccess(content);
       final value = partialStateChange.fold(
         onFetchFailure: (_) => null,
-        onRefreshSuccess: (c) => c + '#Fold',
+        onRefreshSuccess: (c) => '$c#Fold',
         onFetchSuccess: (_) => null,
         onFetchLoading: () => null,
       );
-      expect(value, content + '#Fold');
+      expect(value, '$content#Fold');
 
       expect(
         partialStateChange.fold(

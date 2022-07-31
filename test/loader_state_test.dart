@@ -51,7 +51,7 @@ void main() {
       final expected = LoaderState<String>((b) => b
         ..isLoading = false
         ..error = null
-        ..content = content + '#Changed');
+        ..content = '$content#Changed');
       expect(
         state.rebuild(
           (b) => b

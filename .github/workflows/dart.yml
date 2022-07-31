@@ -40,24 +40,3 @@ jobs:
         run: flutter test --coverage --coverage-path=lcov.info
 
       - uses: codecov/codecov-action@v3.1.0
-
-  test-old-versions:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: [ '2.8.1', '2.10.5' ]
-    steps:
-      - uses: actions/checkout@v3
-
-      - uses: subosito/flutter-action@v2.6.1
-        with:
-          flutter-version: ${{ matrix.version }}
-
-      - name: Doctor
-        run: flutter doctor
-
-      - name: Install dependencies
-        run: flutter packages get
-
-      - name: Run tests
-        run: flutter test

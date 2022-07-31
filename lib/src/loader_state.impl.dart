@@ -1,6 +1,6 @@
 part of 'loader_state.dart';
 
-// ignore_for_file: hash_and_equals, public_member_api_docs, must_be_immutable
+// ignore_for_file: hash_and_equals, public_member_api_docs, must_be_immutable, library_private_types_in_public_api, no_leading_underscores_for_local_identifiers
 
 class _$LoaderState<Content extends Object> extends LoaderState<Content> {
   @override

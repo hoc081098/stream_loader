@@ -71,11 +71,11 @@ void main() {
       const loaderMessage = LoaderMessage.fetchSuccess(content);
       final value = loaderMessage.fold(
         onFetchFailure: (_, __) => null,
-        onFetchSuccess: (c) => c + '#Fold',
+        onFetchSuccess: (c) => '$c#Fold',
         onRefreshFailure: (_, __) => null,
         onRefreshSuccess: (_) => null,
       );
-      expect(value, content + '#Fold');
+      expect(value, '$content#Fold');
 
       expect(
         loaderMessage.fold(
@@ -123,11 +123,11 @@ void main() {
       const loaderMessage = LoaderMessage.refreshSuccess(content);
       final value = loaderMessage.fold(
         onFetchFailure: (_, __) => null,
-        onRefreshSuccess: (c) => c + '#Fold',
+        onRefreshSuccess: (c) => '$c#Fold',
         onRefreshFailure: (_, __) => null,
         onFetchSuccess: (_) => null,
       );
-      expect(value, content + '#Fold');
+      expect(value, '$content#Fold');
 
       expect(
         loaderMessage.fold(

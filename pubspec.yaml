@@ -6,8 +6,8 @@ repository: https://github.com/hoc081098/stream_loader.git
 issue_tracker: https://github.com/hoc081098/stream_loader/issues
 
 environment:
-  sdk: '>=2.14.0 <3.0.0'
-  flutter: '>=2.8.0'
+  sdk: '>=2.17.0 <3.0.0'
+  flutter: '>=3.0.0'
 
 dependencies:
   disposebag: ^1.5.1
@@ -18,7 +18,7 @@ dependencies:
 
 dev_dependencies:
   mockito: ^5.2.0
-  flutter_lints: ^1.0.4
+  flutter_lints: ^2.0.1
   build_runner: ^2.2.0
   analyzer: ^4.1.0
   code_builder: ^4.1.0
