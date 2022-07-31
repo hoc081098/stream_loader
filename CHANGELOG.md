@@ -1,3 +1,11 @@
+## 1.5.0 - 
+
+*   Update dependencies
+    * `rxdart_ext: ^0.2.5`.
+    * `disposebag: ^1.5.1`.
+
+*   Update `Flutter` constraint to `'>=2.8.0'`.
+
 ## 1.4.0 - Sep 15, 2021
 
 *   Remove `distinct_value_connectable_stream` dependency.

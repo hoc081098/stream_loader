@@ -41,29 +41,29 @@ class _$CommentSerializer implements StructuredSerializer<Comment> {
 
     final iterator = serialized.iterator;
     while (iterator.moveNext()) {
-      final key = iterator.current as String;
+      final key = iterator.current! as String;
       iterator.moveNext();
       final Object? value = iterator.current;
       switch (key) {
         case 'postId':
           result.postId = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'id':
           result.id = serializers.deserialize(value,
-              specifiedType: const FullType(int)) as int;
+              specifiedType: const FullType(int))! as int;
           break;
         case 'name':
           result.name = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'email':
           result.email = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
         case 'body':
           result.body = serializers.deserialize(value,
-              specifiedType: const FullType(String)) as String;
+              specifiedType: const FullType(String))! as String;
           break;
       }
     }
@@ -85,7 +85,7 @@ class _$Comment extends Comment {
   final String body;
 
   factory _$Comment([void Function(CommentBuilder)? updates]) =>
-      (new CommentBuilder()..update(updates)).build();
+      (new CommentBuilder()..update(updates))._build();
 
   _$Comment._(
       {required this.postId,
@@ -94,11 +94,11 @@ class _$Comment extends Comment {
       required this.email,
       required this.body})
       : super._() {
-    BuiltValueNullFieldError.checkNotNull(postId, 'Comment', 'postId');
-    BuiltValueNullFieldError.checkNotNull(id, 'Comment', 'id');
-    BuiltValueNullFieldError.checkNotNull(name, 'Comment', 'name');
-    BuiltValueNullFieldError.checkNotNull(email, 'Comment', 'email');
-    BuiltValueNullFieldError.checkNotNull(body, 'Comment', 'body');
+    BuiltValueNullFieldError.checkNotNull(postId, r'Comment', 'postId');
+    BuiltValueNullFieldError.checkNotNull(id, r'Comment', 'id');
+    BuiltValueNullFieldError.checkNotNull(name, r'Comment', 'name');
+    BuiltValueNullFieldError.checkNotNull(email, r'Comment', 'email');
+    BuiltValueNullFieldError.checkNotNull(body, r'Comment', 'body');
   }
 
   @override
@@ -129,7 +129,7 @@ class _$Comment extends Comment {
 
   @override
   String toString() {
-    return (newBuiltValueToStringHelper('Comment')
+    return (newBuiltValueToStringHelper(r'Comment')
           ..add('postId', postId)
           ..add('id', id)
           ..add('name', name)
@@ -189,21 +189,23 @@ class CommentBuilder implements Builder<Comment, CommentBuilder> {
   }
 
   @override
-  _$Comment build() {
+  Comment build() => _build();
+
+  _$Comment _build() {
     final _$result = _$v ??
         new _$Comment._(
             postId: BuiltValueNullFieldError.checkNotNull(
-                postId, 'Comment', 'postId'),
-            id: BuiltValueNullFieldError.checkNotNull(id, 'Comment', 'id'),
+                postId, r'Comment', 'postId'),
+            id: BuiltValueNullFieldError.checkNotNull(id, r'Comment', 'id'),
             name:
-                BuiltValueNullFieldError.checkNotNull(name, 'Comment', 'name'),
+                BuiltValueNullFieldError.checkNotNull(name, r'Comment', 'name'),
             email: BuiltValueNullFieldError.checkNotNull(
-                email, 'Comment', 'email'),
-            body:
-                BuiltValueNullFieldError.checkNotNull(body, 'Comment', 'body'));
+                email, r'Comment', 'email'),
+            body: BuiltValueNullFieldError.checkNotNull(
+                body, r'Comment', 'body'));
     replace(_$result);
     return _$result;
   }
 }
 
-// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new
+// ignore_for_file: always_put_control_body_on_new_line,always_specify_types,annotate_overrides,avoid_annotating_with_dynamic,avoid_as,avoid_catches_without_on_clauses,avoid_returning_this,deprecated_member_use_from_same_package,lines_longer_than_80_chars,no_leading_underscores_for_local_identifiers,omit_local_variable_types,prefer_expression_function_bodies,sort_constructors_first,test_types_in_equals,unnecessary_const,unnecessary_new,unnecessary_lambdas

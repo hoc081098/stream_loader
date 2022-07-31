@@ -1,5 +1,4 @@
 import 'package:built_collection/built_collection.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_provider/flutter_provider.dart';
 import 'package:stream_loader/stream_loader.dart';
@@ -7,8 +6,6 @@ import 'package:stream_loader/stream_loader.dart';
 import 'data/api.dart';
 import 'data/comment.dart';
 import 'detail_page.dart';
-
-// ignore_for_file: deprecated_member_use
 
 class HomePage extends StatelessWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -42,7 +39,7 @@ class HomePage extends StatelessWidget {
                           textAlign: TextAlign.center,
                         ),
                         const SizedBox(height: 8),
-                        RaisedButton(
+                        ElevatedButton(
                           onPressed: bloc.fetch,
                           child: const Text('Retry'),
                         )
@@ -114,7 +111,7 @@ class HomePage extends StatelessWidget {
 
 extension SnackBarExt on BuildContext {
   void snackBar(String message) {
-    Scaffold.of(this).showSnackBar(
+    ScaffoldMessenger.of(this).showSnackBar(
       SnackBar(
         content: Text(message),
         duration: const Duration(seconds: 2),
