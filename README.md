@@ -5,6 +5,8 @@ A Flutter plugin for loading content asynchronously with Dart stream and RxDart.
 
 ## Author: [Petrus Nguyễn Thái Học](https://github.com/hoc081098)
 
+[![Tests](https://github.com/hoc081098/stream_loader/actions/workflows/dart.yml/badge.svg)](https://github.com/hoc081098/stream_loader/actions/workflows/dart.yml)
+[![Build example](https://github.com/hoc081098/stream_loader/actions/workflows/build-example.yml/badge.svg)](https://github.com/hoc081098/stream_loader/actions/workflows/build-example.yml)
 [![Pub](https://img.shields.io/pub/v/stream_loader.svg)](https://pub.dartlang.org/packages/stream_loader)
 [![Build Status](https://travis-ci.org/hoc081098/stream_loader.svg?branch=master)](https://travis-ci.org/hoc081098/stream_loader)
 [![codecov](https://codecov.io/gh/hoc081098/stream_loader/branch/master/graph/badge.svg)](https://codecov.io/gh/hoc081098/stream_loader)

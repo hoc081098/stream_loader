@@ -5,9 +5,7 @@ import 'package:meta/meta.dart';
 import 'package:stream_loader/stream_loader.dart';
 
 @alwaysThrows
-void _aThrowsFunction() {
-  throw Exception('Exception');
-}
+Never _aThrowsFunction() => throw Exception('Exception');
 
 void main() {
   group('LoaderMessage', () {
