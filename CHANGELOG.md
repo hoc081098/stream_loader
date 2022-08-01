@@ -1,7 +1,7 @@
-## 1.5.0 - 
+## 1.5.0 - Aug 1, 2022
 
 *   Update dependencies
-    * `rxdart_ext: ^0.2.5`.
+    * `rxdart_ext: ^0.2.5` (~ `rxdart: ^0.27.5`).
     * `disposebag: ^1.5.1`.
 
 *   Update `Flutter` constraint to `'>=3.0.0'`.
