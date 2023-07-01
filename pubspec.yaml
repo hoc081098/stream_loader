@@ -20,7 +20,7 @@ dev_dependencies:
   mockito: ^5.2.0
   flutter_lints: ^2.0.1
   build_runner: ^2.2.0
-  analyzer: ^4.1.0
+  analyzer: ^6.0.0
   code_builder: ^4.1.0
   flutter_test:
     sdk: flutter
